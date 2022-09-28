@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import '../globals.dart' as globals;
 
 class HomeScreen extends StatelessWidget {
@@ -19,9 +17,22 @@ class HomeScreen extends StatelessWidget {
           centerTitle: true,
           titleTextStyle: globals.defaultFontHeader,
         ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 10),
+                child: Image.asset(
+                  'assets/images/radar.png',
+                  height: 200,
+                  width: 200,
+                  ),
+              ),
 
-        body: Container(
-          
+            ],
+          ),
         ));
   }
 }
