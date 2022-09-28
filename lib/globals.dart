@@ -1,6 +1,7 @@
 library my.globals;
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /// Constatns for text and fonts
@@ -28,4 +29,10 @@ TextStyle defaultFontHeader = GoogleFonts.lato(
 TextStyle defaultFontText = GoogleFonts.lato(
   fontSize: textSize,
   fontWeight: FontWeight.w400,
+);
+
+TextStyle buttonFontText = GoogleFonts.lato(
+  fontSize: 18,
+  fontWeight: FontWeight.w500,
+  color: Colors.white,
 );
