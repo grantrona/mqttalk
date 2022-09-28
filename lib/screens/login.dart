@@ -1,3 +1,4 @@
+import 'package:find_my_device/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // Defuault values are used until sign in has occured -> Load preferences after sign in
@@ -127,6 +128,8 @@ class Login extends StatelessWidget {
                               ))),
                               onPressed: () {
                                 // TODO
+                                Navigator.push(context,
+                                 MaterialPageRoute(builder: (_) => const HomeScreen()));
                               },
                               child: Text(
                                 'Sign in',
@@ -141,18 +144,20 @@ class Login extends StatelessWidget {
               ),
               Expanded (
                 flex: 1,
-                child: TextButton (
-                        child: Text(
-                          "New User? Register here!",
-                          style: GoogleFonts.lato(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w800,
+                child: Container(
+                  child: TextButton (
+                          child: Text(
+                            "New User? Register here!",
+                            style: GoogleFonts.lato(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
+                          onPressed: () {
+                            // TODO
+                          },
                         ),
-                        onPressed: () {
-                          // TODO
-                        },
-                      ),  
+                ),  
               )
             ],
           ),
