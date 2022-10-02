@@ -5,18 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 // Defuault values are used until sign in has occured -> Load preferences after sign in
 import '../globals.dart' as globals;
 
-class StartUp extends StatelessWidget {
-  const StartUp({super.key});
-
-  // escapes the 'No MediaQuery widget found' error
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-        home: Login()     
-        );
-  }
-}
-
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 

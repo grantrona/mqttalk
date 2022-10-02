@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1013598710594",
+    "project_id": "findmydevice-2f9e6",
+    "storage_bucket": "findmydevice-2f9e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013598710594:android:1d7d71e3d537f5e1fc36db",
+        "android_client_info": {
+          "package_name": "com.example.find_my_device"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013598710594-atch7v40b0vgompq6ed71h5d73m6lhsi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.find_my_device",
+            "certificate_hash": "3acc85ccdcaa2d61a18da6c3fd29aba9084d2b89"
+          }
+        },
+        {
+          "client_id": "1013598710594-vb79klg0s1j5dtlmql8shi3ajpomi8e8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIt0xJqT3J2E566NDROmYxf4SO-cVKlNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1013598710594-vb79klg0s1j5dtlmql8shi3ajpomi8e8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
