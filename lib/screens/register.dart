@@ -1,40 +1,26 @@
 import 'package:find_my_device/screens/home.dart';
-import 'package:find_my_device/screens/register.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // Defuault values are used until sign in has occured -> Load preferences after sign in
 import '../globals.dart' as globals;
 
-class StartUp extends StatelessWidget {
-  const StartUp({super.key});
+class Register extends StatefulWidget {
+  const Register({Key? key}) : super(key: key);
 
-  // escapes the 'No MediaQuery widget found' error
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-        home: Login()     
-        );
-  }
+  State<Register> createState() => _RegisterState();
 }
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
-
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         resizeToAvoidBottomInset:
             false, //prevents resizing of widgets from keyboard popup
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.blue.shade800,
-          title: const Text("Login"),
+          title: const Text("Register"),
           centerTitle: true,
           titleTextStyle: globals.defaultFontHeader,
         ),
@@ -46,7 +32,7 @@ class _LoginState extends State<Login> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                flex: 1,
+                flex: 2,
                 child: Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -67,7 +53,7 @@ class _LoginState extends State<Login> {
                 ),
               ),
               Expanded(
-                flex: 2,
+                flex: 4,
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.85,
                   decoration: BoxDecoration(
@@ -79,7 +65,7 @@ class _LoginState extends State<Login> {
                           offset: Offset(
                             15.0,
                             15.0,
-                          ))
+                          )),
                     ],
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -110,14 +96,17 @@ class _LoginState extends State<Login> {
                               fillColor: Colors.white),
                         ),
                       ),
-                      TextButton (
-                        child: const Text(
-                          "Forgot password?",
-                          style: TextStyle(color: Colors.black54),
-                          ),
-                        onPressed: () {
-                          // TODO
-                        },
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 12),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                              border: const UnderlineInputBorder(),
+                              labelText: 'Confirm Password',
+                              labelStyle: globals.defaultFontText,
+                              prefixIcon: const Icon(Icons.lock),
+                              fillColor: Colors.white),
+                        ),
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 20),
@@ -137,7 +126,7 @@ class _LoginState extends State<Login> {
                                  MaterialPageRoute(builder: (_) => const HomeScreen()));
                               },
                               child: Text(
-                                'Sign in',
+                                'Register',
                                 style: globals.buttonFontText,
                               )),
                         ),
@@ -150,25 +139,11 @@ class _LoginState extends State<Login> {
               Expanded (
                 flex: 1,
                 child: Container(
-                  child: TextButton (
-                          child: Text(
-                            "New User? Register here!",
-                            style: GoogleFonts.lato(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.push(context,
-                                 MaterialPageRoute(builder: (_) => const Register()));
-                          },
-                        ),
                 ),  
               )
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }
