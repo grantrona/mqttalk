@@ -1,5 +1,6 @@
 import 'package:find_my_device/View/history.dart';
 import 'package:find_my_device/View/profile.dart';
+import 'package:find_my_device/view/preferences.dart';
 import 'package:flutter/material.dart';
 import '../globals.dart' as globals;
 
@@ -74,9 +75,18 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: globals.colorHighlight,
-        title: const Text("Search"),
+        title: const Text("FindMyDevice"),
         centerTitle: true,
         titleTextStyle: globals.defaultFontHeader,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => const Preferences()));
+            },
+            icon: const Icon(Icons.settings),
+          ),
+        ],
       ),
 
       body: Center(
