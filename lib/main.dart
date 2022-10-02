@@ -1,3 +1,4 @@
+import 'package:find_my_device/routes.dart';
 import 'package:find_my_device/view/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,11 +30,12 @@ class _AppState extends State<App> {
           return const Text("Error occured during initialisation!");
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          return const MaterialApp(
-            home: Login()     
+          return  MaterialApp(
+            initialRoute: '/login',
+            routes: appRoutes,   
           ); 
         }
-        // indicate loading while app is initialising
+        // TODO indicate loading while app is initialising
         return const Text('Loading');
       },
     );

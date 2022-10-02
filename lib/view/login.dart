@@ -122,8 +122,7 @@ class _LoginState extends State<Login> {
                                 borderRadius: BorderRadius.circular(10.0),
                               ))),
                               onPressed: () {
-                                Navigator.push(context,
-                                 MaterialPageRoute(builder: (_) => const HomeScreen()));
+                                Navigator.pushNamed(context, '/');
                               },
                               child: Text(
                                 'Sign in',
@@ -140,8 +139,7 @@ class _LoginState extends State<Login> {
                 flex: 1,
                 child: TextButton (
                         onPressed: () {
-                          Navigator.push(context,
-                               MaterialPageRoute(builder: (_) => const Register()));
+                          Navigator.pushNamed(context, '/register');
                         },
                         child: Text(
                           "New User? Register here!",

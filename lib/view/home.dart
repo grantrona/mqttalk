@@ -81,8 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const Preferences()));
+              Navigator.pushNamed(context, '/preferences');
             },
             icon: const Icon(Icons.settings),
           ),

@@ -122,8 +122,7 @@ class _RegisterState extends State<Register> {
                                 borderRadius: BorderRadius.circular(10.0),
                               ))),
                               onPressed: () {
-                                Navigator.push(context,
-                                 MaterialPageRoute(builder: (_) => const HomeScreen()));
+                                Navigator.pushNamed(context, '/');
                               },
                               child: Text(
                                 'Register',
