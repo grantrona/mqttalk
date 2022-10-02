@@ -1,6 +1,5 @@
 library my.globals;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,6 +18,12 @@ bool isLoggedin = false;
 double textSize = 16;
 double headTextSize = 24;
 double titleTextSize = 36;
+
+TextStyle defaultFontTitleBold = GoogleFonts.lato(
+  fontSize: headTextSize,
+  fontWeight: FontWeight.bold,
+  color: colorLight,
+);
 
 TextStyle defaultFontTitle = GoogleFonts.lato(
   fontSize: titleTextSize,

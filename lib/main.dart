@@ -114,7 +114,7 @@
 //   }
 // }
 
-import 'package:find_my_device/screens/login.dart';
+import 'package:find_my_device/view/login.dart';
 import 'package:flutter/cupertino.dart';
 
 void main() {
