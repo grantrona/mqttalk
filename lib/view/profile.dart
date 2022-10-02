@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import '../services/auth.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -12,8 +11,21 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text("PROFILE"),
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+            const Text("PROFILE"),
+            ElevatedButton(
+                child: const Text('Sign Out'),
+                onPressed: () async {
+                  // TODO
+                  // await Auth().signOut();
+                  Navigator.of(context).pop();
+                }),
+          ],
+        ),
+      ),
     );
   }
 }

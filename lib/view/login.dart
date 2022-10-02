@@ -1,5 +1,3 @@
-import 'package:find_my_device/view/home.dart';
-import 'package:find_my_device/view/register.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // Defuault values are used until sign in has occured -> Load preferences after sign in
@@ -13,6 +11,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -78,6 +79,9 @@ class _LoginState extends State<Login> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 12),
                         child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          controller: emailController,
                           decoration: InputDecoration(
                               border: const UnderlineInputBorder(),
                               labelText: 'Email',
@@ -90,6 +94,8 @@ class _LoginState extends State<Login> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 12),
                         child: TextFormField(
+                          obscureText: true,
+                          controller: passwordController,
                           decoration: InputDecoration(
                               border: const UnderlineInputBorder(),
                               labelText: 'Password',
@@ -122,6 +128,7 @@ class _LoginState extends State<Login> {
                                 borderRadius: BorderRadius.circular(10.0),
                               ))),
                               onPressed: () {
+                                // TODO auth with text contollers
                                 Navigator.pushNamed(context, '/');
                               },
                               child: Text(

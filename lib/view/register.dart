@@ -11,6 +11,10 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,6 +79,9 @@ class _RegisterState extends State<Register> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 12),
                         child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          controller: emailController,
                           decoration: InputDecoration(
                               border: const UnderlineInputBorder(),
                               labelText: 'Email',
@@ -87,6 +94,9 @@ class _RegisterState extends State<Register> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 12),
                         child: TextFormField(
+                          obscureText: true,
+                          textInputAction: TextInputAction.next,
+                          controller: passwordController,
                           decoration: InputDecoration(
                               border: const UnderlineInputBorder(),
                               labelText: 'Password',
@@ -99,6 +109,8 @@ class _RegisterState extends State<Register> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 12),
                         child: TextFormField(
+                          obscureText: true,
+                          controller: confirmController,
                           decoration: InputDecoration(
                               border: const UnderlineInputBorder(),
                               labelText: 'Confirm Password',
@@ -122,6 +134,7 @@ class _RegisterState extends State<Register> {
                                 borderRadius: BorderRadius.circular(10.0),
                               ))),
                               onPressed: () {
+                                // TODO auth with text controllers
                                 Navigator.pushNamed(context, '/');
                               },
                               child: Text(
