@@ -17,9 +17,9 @@ class _RegisterState extends State<Register> {
     return Scaffold(
         resizeToAvoidBottomInset:
             false, //prevents resizing of widgets from keyboard popup
-        backgroundColor: Colors.white,
+        backgroundColor: globals.colorDark,
         appBar: AppBar(
-          backgroundColor: Colors.blue.shade800,
+          backgroundColor: globals.colorHighlight,
           title: const Text("Register"),
           centerTitle: true,
           titleTextStyle: globals.defaultFontHeader,
@@ -67,7 +67,7 @@ class _RegisterState extends State<Register> {
                             15.0,
                           )),
                     ],
-                    color: Colors.white,
+                    color: globals.colorLight,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
@@ -81,7 +81,7 @@ class _RegisterState extends State<Register> {
                               labelText: 'Email',
                               labelStyle: globals.defaultFontText,
                               prefixIcon: const Icon(Icons.person),
-                              fillColor: Colors.white),
+                              fillColor: globals.colorLight),
                         ),
                       ),
                       Padding(
@@ -93,7 +93,7 @@ class _RegisterState extends State<Register> {
                               labelText: 'Password',
                               labelStyle: globals.defaultFontText,
                               prefixIcon: const Icon(Icons.lock),
-                              fillColor: Colors.white),
+                              fillColor: globals.colorLight),
                         ),
                       ),
                       Padding(
@@ -105,7 +105,7 @@ class _RegisterState extends State<Register> {
                               labelText: 'Confirm Password',
                               labelStyle: globals.defaultFontText,
                               prefixIcon: const Icon(Icons.lock),
-                              fillColor: Colors.white),
+                              fillColor: globals.colorLight),
                         ),
                       ),
                       Container(
@@ -117,6 +117,7 @@ class _RegisterState extends State<Register> {
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                   const EdgeInsets.all(15)
                                 ),
+                                backgroundColor: MaterialStateProperty.all(globals.colorHighlight),
                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),

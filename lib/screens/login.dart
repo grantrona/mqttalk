@@ -31,9 +31,9 @@ class _LoginState extends State<Login> {
       home: Scaffold(
         resizeToAvoidBottomInset:
             false, //prevents resizing of widgets from keyboard popup
-        backgroundColor: Colors.white,
+        backgroundColor: globals.colorDark,
         appBar: AppBar(
-          backgroundColor: Colors.blue.shade800,
+          backgroundColor: globals.colorHighlight,
           title: const Text("Login"),
           centerTitle: true,
           titleTextStyle: globals.defaultFontHeader,
@@ -81,7 +81,7 @@ class _LoginState extends State<Login> {
                             15.0,
                           ))
                     ],
-                    color: Colors.white,
+                    color: globals.colorLight,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
@@ -95,7 +95,7 @@ class _LoginState extends State<Login> {
                               labelText: 'Email',
                               labelStyle: globals.defaultFontText,
                               prefixIcon: const Icon(Icons.person),
-                              fillColor: Colors.white),
+                              fillColor: globals.colorLight),
                         ),
                       ),
                       Padding(
@@ -107,7 +107,7 @@ class _LoginState extends State<Login> {
                               labelText: 'Password',
                               labelStyle: globals.defaultFontText,
                               prefixIcon: const Icon(Icons.lock),
-                              fillColor: Colors.white),
+                              fillColor: globals.colorLight),
                         ),
                       ),
                       TextButton (
@@ -128,6 +128,7 @@ class _LoginState extends State<Login> {
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                   const EdgeInsets.all(15)
                                 ),
+                                backgroundColor: MaterialStateProperty.all(globals.colorHighlight),
                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -149,21 +150,20 @@ class _LoginState extends State<Login> {
               ),
               Expanded (
                 flex: 1,
-                child: Container(
-                  child: TextButton (
-                          child: Text(
-                            "New User? Register here!",
-                            style: GoogleFonts.lato(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                            ),
+                child: TextButton (
+                        onPressed: () {
+                          Navigator.push(context,
+                               MaterialPageRoute(builder: (_) => const Register()));
+                        },
+                        child: Text(
+                          "New User? Register here!",
+                          style: GoogleFonts.lato(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: globals.colorHighlight,
                           ),
-                          onPressed: () {
-                            Navigator.push(context,
-                                 MaterialPageRoute(builder: (_) => const Register()));
-                          },
                         ),
-                ),  
+                      ),  
               )
             ],
           ),

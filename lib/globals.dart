@@ -9,6 +9,10 @@ const double textSizeDefault = 16;
 const double headTextSizeDefault = 24;
 const double titleTextSizeDefault = 36;
 
+const Color colorLight = Color(0xffEEEEEE);
+const Color colorDark = Color(0xff222831);
+const Color colorHighlight = Color(0xff00ADB5);
+
 bool isLoggedin = false;
 
 /// Alterable font sizes
@@ -19,6 +23,7 @@ double titleTextSize = 36;
 TextStyle defaultFontTitle = GoogleFonts.lato(
   fontSize: titleTextSize,
   fontWeight: FontWeight.w600,
+  color: colorLight,
 );
 
 TextStyle defaultFontHeader = GoogleFonts.lato(

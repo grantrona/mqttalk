@@ -9,7 +9,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         resizeToAvoidBottomInset:
             false, //prevents resizing of widgets from keyboard popup
-        backgroundColor: Colors.white,
+        backgroundColor: globals.colorDark,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colors.blue.shade800,
