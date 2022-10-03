@@ -28,9 +28,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    // List of widgets displayable via the bottom navigation bar
-    final List<Widget> bottomNavOptions = <Widget>[
+    final List<Widget> displaySearchOptions = <Widget>[
       Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,12 +71,55 @@ class _SearchScreenState extends State<SearchScreen> {
           )
         ],
       ),
-      const Devices(),
-      const Profile(),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+              margin: const EdgeInsets.only(top: 30),
+              child: const Icon(
+                Icons.radar,
+                size: 325,
+              )),
+          Container(
+            margin: const EdgeInsets.only(top: 40),
+            child: FractionallySizedBox(
+              widthFactor: 0.8,
+              child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.cancel_outlined,
+                    size: 35,
+                  ),
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                          const EdgeInsets.all(20)),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.amber.shade800),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ))),
+                  onPressed: () {
+                    _onSearchingButtonPressed();
+                    // TODO
+                  },
+                  label: Text(
+                    'Stop Searching',
+                    style: globals.defaultFontTitleBold,
+                  )),
+            ),
+          )
+        ],
+      ),
     ];
 
-    final List<Widget> displaySearching = <Widget> [
-      
+    // List of widgets displayable via the bottom navigation bar
+    final List<Widget> bottomNavOptions = <Widget>[
+      _isSearching
+          ? displaySearchOptions.elementAt(1)
+          : displaySearchOptions.elementAt(0),
+      const Devices(),
+      const Profile(),
     ];
 
     return Scaffold(
