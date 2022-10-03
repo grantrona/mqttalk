@@ -13,61 +13,74 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   int currentPageIndex = 0;
-
   void _onItemTapped(int index) {
     setState(() {
       currentPageIndex = index;
     });
   }
 
-  static final List<Widget> _bottomNavOptions = <Widget>[
-    Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          margin: const EdgeInsets.only(top: 30),
-          child: Image.asset(
-            'assets/images/radar.png',
-            height: 225,
-            width: 225,
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 40),
-          child: FractionallySizedBox(
-            widthFactor: 0.8,
-            child: ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.bluetooth_searching,
-                  size: 35,
-                ),
-                style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.all(20)),
-                    backgroundColor:
-                        MaterialStateProperty.all(globals.colorHighlight),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ))),
-                onPressed: () {
-                  // TODO
-                },
-                label: Text(
-                  'Begin Searching',
-                  style: globals.defaultFontTitleBold,
-                )),
-          ),
-        )
-      ],
-    ),
-    const Devices(),
-    const Profile(),
-  ];
+  bool _isSearching = false;
+  void _onSearchingButtonPressed() {
+    setState(() {
+      _isSearching = !_isSearching;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    // List of widgets displayable via the bottom navigation bar
+    final List<Widget> bottomNavOptions = <Widget>[
+      Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 30),
+            child: Image.asset(
+              'assets/images/radar.png',
+              height: 325,
+              width: 325,
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 40),
+            child: FractionallySizedBox(
+              widthFactor: 0.8,
+              child: ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.bluetooth_searching,
+                    size: 35,
+                  ),
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsets>(
+                          const EdgeInsets.all(20)),
+                      backgroundColor:
+                          MaterialStateProperty.all(globals.colorHighlight),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ))),
+                  onPressed: () {
+                    _onSearchingButtonPressed();
+                    // TODO
+                  },
+                  label: Text(
+                    'Begin Searching',
+                    style: globals.defaultFontTitleBold,
+                  )),
+            ),
+          )
+        ],
+      ),
+      const Devices(),
+      const Profile(),
+    ];
+
+    final List<Widget> displaySearching = <Widget> [
+      
+    ];
+
     return Scaffold(
       resizeToAvoidBottomInset:
           false, //prevents resizing of widgets from keyboard popup
@@ -89,7 +102,7 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
 
       body: Center(
-        child: _bottomNavOptions.elementAt(currentPageIndex),
+        child: bottomNavOptions.elementAt(currentPageIndex),
       ),
 
       bottomNavigationBar: BottomNavigationBar(
