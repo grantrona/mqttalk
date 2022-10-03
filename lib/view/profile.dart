@@ -1,4 +1,6 @@
+import 'package:find_my_device/view/login.dart';
 import 'package:flutter/material.dart';
+import '../main.dart';
 import '../services/auth.dart';
 
 class Profile extends StatefulWidget {
@@ -19,9 +21,8 @@ class _ProfileState extends State<Profile> {
             ElevatedButton(
                 child: const Text('Sign Out'),
                 onPressed: () async {
-                  // TODO
-                  // await Auth().signOut();
-                  Navigator.of(context).pop();
+                  Auth().signOut();
+                  navigatorKey.currentState!.popUntil((route) => route.isFirst);
                 }),
           ],
         ),

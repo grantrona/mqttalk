@@ -1,7 +1,4 @@
 import 'package:find_my_device/routes.dart';
-import 'package:find_my_device/services/auth.dart';
-import 'package:find_my_device/view/login.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +16,8 @@ class App extends StatefulWidget {
   State<App> createState() => _AppState();
 }
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 class _AppState extends State<App> {
   final Future<FirebaseApp> _initializeApp = Firebase.initializeApp();
 
@@ -32,28 +31,32 @@ class _AppState extends State<App> {
           return const Text("Error occured during initialisation!");
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          return StreamBuilder(
-            stream: Auth().userStream,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                    child: Text("Loading", textDirection: TextDirection.ltr));
-              } else if (snapshot.hasError) {
-                return const Center(
-                    child: Text("Error Occured",
-                        textDirection: TextDirection.ltr));
-              } else if (snapshot.hasData) {
-                return MaterialApp(
-                  initialRoute: '/',
-                  routes: appRoutes,
-                );
-              } else {
-                return MaterialApp(
-                  initialRoute: '/login',
-                  routes: appRoutes,
-                );
-              }
-            },
+          // return StreamBuilder<User?>(
+          //   stream: Auth().userStream,
+          //   builder: (context, snapshot) {
+          //     if (snapshot.connectionState == ConnectionState.waiting) {
+          //       return const Center(
+          //           child: Text("Loading", textDirection: TextDirection.ltr));
+          //     } else if (snapshot.hasError) {
+          //       return const Center(
+          //           child: Text("Error Occured",
+          //               textDirection: TextDirection.ltr));
+          //     } else if (snapshot.hasData) {
+          //       return MaterialApp(
+          //         initialRoute: '/',
+          //         routes: appRoutes,
+          //       );
+          //     } else {
+          //       return MaterialApp(
+          //         initialRoute: '/login',
+          //         routes: appRoutes,
+          //       );
+          //     }
+          //   },
+          // );
+          return MaterialApp(
+            navigatorKey: navigatorKey,
+              routes: appRoutes,
           );
         }
         // TODO indicate loading while app is initialising

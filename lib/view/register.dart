@@ -1,7 +1,9 @@
-import 'package:find_my_device/view/home.dart';
+import 'package:find_my_device/services/auth.dart';
+import 'package:find_my_device/view/search.dart';
 import 'package:flutter/material.dart';
 // Defuault values are used until sign in has occured -> Load preferences after sign in
 import '../globals.dart' as globals;
+import '../shared/alert.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -11,9 +13,9 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +83,7 @@ class _RegisterState extends State<Register> {
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
-                          controller: emailController,
+                          controller: _emailController,
                           decoration: InputDecoration(
                               border: const UnderlineInputBorder(),
                               labelText: 'Email',
@@ -96,7 +98,7 @@ class _RegisterState extends State<Register> {
                         child: TextFormField(
                           obscureText: true,
                           textInputAction: TextInputAction.next,
-                          controller: passwordController,
+                          controller: _passwordController,
                           decoration: InputDecoration(
                               border: const UnderlineInputBorder(),
                               labelText: 'Password',
@@ -110,7 +112,7 @@ class _RegisterState extends State<Register> {
                             horizontal: 20, vertical: 12),
                         child: TextFormField(
                           obscureText: true,
-                          controller: confirmController,
+                          controller: _confirmController,
                           decoration: InputDecoration(
                               border: const UnderlineInputBorder(),
                               labelText: 'Confirm Password',
@@ -134,8 +136,17 @@ class _RegisterState extends State<Register> {
                                 borderRadius: BorderRadius.circular(10.0),
                               ))),
                               onPressed: () {
-                                // TODO auth with text controllers
-                                Navigator.pushNamed(context, '/');
+                                if (_emailController.text.isEmpty || _confirmController.text.isEmpty || _passwordController.text.isEmpty) {
+                                  showAlertDialog(context, "Please fill all the fields!");
+                                  return;
+                                }
+                                if (_confirmController.text != _passwordController.text) {
+                                  showAlertDialog(context, "Passwords do not match!");
+                                  _confirmController.clear();
+                                  _passwordController.clear();
+                                  return;
+                                }
+                                Auth().register(_emailController.text.trim(), _passwordController.text.trim(), context);
                               },
                               child: Text(
                                 'Register',

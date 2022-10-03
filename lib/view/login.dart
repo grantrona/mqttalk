@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // Defuault values are used until sign in has occured -> Load preferences after sign in
 import '../globals.dart' as globals;
+import '../services/auth.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -11,8 +12,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +43,10 @@ class _LoginState extends State<Login> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Icon(
-                          Icons.bluetooth_searching,
-                          size: 50,
-                          color: Colors.blue,
-                        ),
+                        Icons.bluetooth_searching,
+                        size: 50,
+                        color: Colors.blue,
+                      ),
                       Text(
                         "FindMyDevice",
                         style: globals.defaultFontTitle,
@@ -81,7 +82,7 @@ class _LoginState extends State<Login> {
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
-                          controller: emailController,
+                          controller: _emailController,
                           decoration: InputDecoration(
                               border: const UnderlineInputBorder(),
                               labelText: 'Email',
@@ -95,7 +96,7 @@ class _LoginState extends State<Login> {
                             horizontal: 20, vertical: 12),
                         child: TextFormField(
                           obscureText: true,
-                          controller: passwordController,
+                          controller: _passwordController,
                           decoration: InputDecoration(
                               border: const UnderlineInputBorder(),
                               labelText: 'Password',
@@ -104,11 +105,11 @@ class _LoginState extends State<Login> {
                               fillColor: globals.colorLight),
                         ),
                       ),
-                      TextButton (
+                      TextButton(
                         child: const Text(
                           "Forgot password?",
                           style: TextStyle(color: Colors.black54),
-                          ),
+                        ),
                         onPressed: () {
                           // TODO
                         },
@@ -119,17 +120,19 @@ class _LoginState extends State<Login> {
                           widthFactor: 0.8,
                           child: ElevatedButton(
                               style: ButtonStyle(
-                                padding: MaterialStateProperty.all<EdgeInsets>(
-                                  const EdgeInsets.all(15)
-                                ),
-                                backgroundColor: MaterialStateProperty.all(globals.colorHighlight),
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  padding:
+                                      MaterialStateProperty.all<EdgeInsets>(
+                                          const EdgeInsets.all(15)),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      globals.colorHighlight),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ))),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ))),
                               onPressed: () {
-                                // TODO auth with text contollers
-                                Navigator.pushNamed(context, '/');
+                                Auth().signIn(_emailController.text.trim(),
+                                    _passwordController.text.trim(), context);
                               },
                               child: Text(
                                 'Sign in',
@@ -138,25 +141,24 @@ class _LoginState extends State<Login> {
                         ),
                       )
                     ],
-                    
                   ),
                 ),
               ),
-              Expanded (
+              Expanded(
                 flex: 1,
-                child: TextButton (
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/register');
-                        },
-                        child: Text(
-                          "New User? Register here!",
-                          style: GoogleFonts.lato(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w800,
-                            color: globals.colorHighlight,
-                          ),
-                        ),
-                      ),  
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/register');
+                  },
+                  child: Text(
+                    "New User? Register here!",
+                    style: GoogleFonts.lato(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: globals.colorHighlight,
+                    ),
+                  ),
+                ),
               )
             ],
           ),
