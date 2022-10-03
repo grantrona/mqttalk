@@ -1,5 +1,5 @@
-import 'package:find_my_device/View/history.dart';
 import 'package:find_my_device/View/profile.dart';
+import 'package:find_my_device/view/devices.dart';
 import 'package:find_my_device/view/preferences.dart';
 import 'package:flutter/material.dart';
 import '../globals.dart' as globals;
@@ -62,7 +62,7 @@ class _SearchScreenState extends State<SearchScreen> {
         )
       ],
     ),
-    const History(),
+    const Devices(),
     const Profile(),
   ];
 
@@ -100,8 +100,8 @@ class _SearchScreenState extends State<SearchScreen> {
             label: "Search",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt),
-            label: "Logs",
+            icon: Icon(Icons.devices_other),
+            label: "Devices",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline_rounded),
