@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
 
 enum AppConnectionState { connected, disconnected, connecting }
@@ -7,11 +5,11 @@ enum AppConnectionState { connected, disconnected, connecting }
 class AppState with ChangeNotifier {
   AppConnectionState _connectionState = AppConnectionState.disconnected;
   String _recText = "";
-  final List<String>_history = [];
+  String _history = "";
 
   void setRecText(String text) {
     _recText = text;
-    _history.add(_recText);
+    _history += "\n""$_recText";
     notifyListeners();
     
   }
@@ -25,7 +23,7 @@ class AppState with ChangeNotifier {
     return _recText;
   }
 
-  List<String> getHistoryText() {
+  String getHistoryText() {
     return _history;
   }
 

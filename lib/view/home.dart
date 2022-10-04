@@ -5,6 +5,9 @@ import 'package:find_my_device/view/messages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../controller/mqtt_controller.dart';
+import '../models/Mqtt_state.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -15,6 +18,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    late AppState appState;
+    
     return StreamBuilder<User?>(
       stream: Auth().userStream,
       builder: (context, snapshot) {

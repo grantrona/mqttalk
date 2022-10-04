@@ -1,11 +1,17 @@
+import 'package:find_my_device/models/Mqtt_state.dart';
 import 'package:find_my_device/routes.dart';
 import 'package:find_my_device/shared/load_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const App());
+  runApp(
+    MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => AppState()),
+    ], child: const App()
+  ));
 }
 
 class App extends StatefulWidget {
