@@ -11,26 +11,28 @@ class LoadScreen extends StatefulWidget {
 class _LoadScreenState extends State<LoadScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: globals.colorDark,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.flutter_dash,
-                color: Colors.white,
-                size: 150,
-              ),
-              Text("Initializing...",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: globals.headTextSize,
-                    fontWeight: FontWeight.bold,
-                  ))
-            ],
+    return MaterialApp(
+      home: Scaffold(
+        body: Container(
+          color: globals.colorDark,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.flutter_dash,
+                  color: Colors.white,
+                  size: 150,
+                ),
+                Text("Initializing...",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: globals.headTextSize,
+                      fontWeight: FontWeight.bold,
+                    ))
+              ],
+            ),
           ),
         ),
       ),

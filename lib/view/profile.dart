@@ -1,7 +1,6 @@
-import 'package:find_my_device/view/login.dart';
 import 'package:flutter/material.dart';
 import '../main.dart';
-import '../services/auth.dart';
+import '../view_model/services/auth.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});

@@ -20,7 +20,6 @@ final navigatorKey = GlobalKey<NavigatorState>();
 class _AppState extends State<App> {
   final Future<FirebaseApp> _initializeApp = Firebase.initializeApp();
 
-  // escapes the 'No MediaQuery widget found' error
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(

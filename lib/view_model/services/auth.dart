@@ -2,7 +2,7 @@ import 'package:find_my_device/shared/alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../main.dart';
+import '../../main.dart';
 
 class Auth {
   final userStream = FirebaseAuth.instance.authStateChanges();
