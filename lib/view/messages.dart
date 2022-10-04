@@ -149,8 +149,8 @@ class _MessagesState extends State<Messages> {
         backgroundColor: globals.colorLight,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.bluetooth_searching_rounded),
-            label: "Search",
+            icon: Icon(Icons.message_rounded),
+            label: "Message",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.contacts),
