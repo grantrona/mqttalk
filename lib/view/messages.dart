@@ -153,7 +153,7 @@ class _MessagesState extends State<Messages> {
             label: "Search",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.devices_other),
+            icon: Icon(Icons.contacts),
             label: "Contacts",
           ),
           BottomNavigationBarItem(
