@@ -34,7 +34,6 @@ class _AppState extends State<App> {
             routes: appRoutes,
           );
         }
-        // TODO indicate loading while app is initialising
         return const LoadScreen();
       },
     );

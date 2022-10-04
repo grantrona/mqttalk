@@ -1,4 +1,4 @@
-import 'package:find_my_device/view_model/services/auth.dart';
+import 'package:find_my_device/view_model/auth.dart';
 import 'package:find_my_device/shared/load_screen.dart';
 import 'package:find_my_device/view/login.dart';
 import 'package:find_my_device/view/search.dart';

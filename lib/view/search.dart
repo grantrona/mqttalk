@@ -1,6 +1,5 @@
 import 'package:find_my_device/View/profile.dart';
 import 'package:find_my_device/view/devices.dart';
-import 'package:find_my_device/view/preferences.dart';
 import 'package:flutter/material.dart';
 import '../globals.dart' as globals;
 
