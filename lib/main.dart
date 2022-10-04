@@ -1,5 +1,5 @@
 import 'package:find_my_device/routes.dart';
-import 'package:find_my_device/shared/loadscreen.dart';
+import 'package:find_my_device/shared/load_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 

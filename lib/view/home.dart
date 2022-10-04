@@ -1,5 +1,5 @@
 import 'package:find_my_device/services/auth.dart';
-import 'package:find_my_device/shared/loadscreen.dart';
+import 'package:find_my_device/shared/load_screen.dart';
 import 'package:find_my_device/view/login.dart';
 import 'package:find_my_device/view/search.dart';
 import 'package:firebase_auth/firebase_auth.dart';
