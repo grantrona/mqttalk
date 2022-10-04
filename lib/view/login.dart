@@ -18,21 +18,20 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: globals.colorDark,
-        appBar: AppBar(
-          backgroundColor: globals.colorHighlight,
-          title: const Text("Login"),
-          centerTitle: true,
-          titleTextStyle: globals.defaultFontHeader,
-        ),
+        home: Scaffold(
+      backgroundColor: globals.colorDark,
+      appBar: AppBar(
+        backgroundColor: globals.colorHighlight,
+        title: const Text("Login"),
+        centerTitle: true,
+        titleTextStyle: globals.defaultFontHeader,
+      ),
 
-        // Container for Welcome message
-        body: Center(
-          child: CustomScrollView(
-            slivers: [
-              SliverFillRemaining(
-                hasScrollBody: false,
+      // Container for Welcome message
+      body: Center(
+        child: CustomScrollView(slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -165,10 +164,8 @@ class _LoginState extends State<Login> {
               ],
             ),
           ),
-            ]
-        ),
+        ]),
       ),
-      )
-    );
+    ));
   }
 }
