@@ -1,7 +1,7 @@
 import 'package:find_my_device/view_model/auth.dart';
 import 'package:find_my_device/shared/load_screen.dart';
 import 'package:find_my_device/view/login.dart';
-import 'package:find_my_device/view/search.dart';
+import 'package:find_my_device/view/messages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return const Center(
               child: Text("Error Occured", textDirection: TextDirection.ltr));
         } else if (snapshot.hasData) {
-          return const SearchScreen();
+          return const Messages();
         } else {
           return const Login();
         }

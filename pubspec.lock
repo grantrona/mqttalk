@@ -36,13 +36,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.16.0"
-  convert:
-    dependency: transitive
-    description:
-      name: convert
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.2"
   crypto:
     dependency: transitive
     description:
@@ -57,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  event_bus:
+    dependency: transitive
+    description:
+      name: event_bus
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -120,25 +120,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.3"
-  fixnum:
-    dependency: transitive
-    description:
-      name: fixnum
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_blue:
-    dependency: "direct main"
-    description:
-      name: flutter_blue
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -146,13 +132,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  flutter_reactive_ble:
-    dependency: "direct main"
-    description:
-      name: flutter_reactive_ble
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.0.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -163,13 +142,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  functional_data:
-    dependency: transitive
-    description:
-      name: functional_data
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   google_fonts:
     dependency: "direct main"
     description:
@@ -233,6 +205,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  mqtt_client:
+    dependency: "direct main"
+    description:
+      name: mqtt_client
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "9.7.2"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   path:
     dependency: transitive
     description:
@@ -310,34 +296,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
-  protobuf:
-    dependency: transitive
+  provider:
+    dependency: "direct main"
     description:
-      name: protobuf
+      name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
-  reactive_ble_mobile:
-    dependency: transitive
-    description:
-      name: reactive_ble_mobile
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.0.2"
-  reactive_ble_platform_interface:
-    dependency: transitive
-    description:
-      name: reactive_ble_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.0.2"
-  rxdart:
-    dependency: transitive
-    description:
-      name: rxdart
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.26.0"
+    version: "6.0.3"
   sky_engine:
     dependency: transitive
     description: flutter

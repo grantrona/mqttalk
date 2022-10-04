@@ -1,16 +1,16 @@
 import 'package:find_my_device/View/profile.dart';
-import 'package:find_my_device/view/devices.dart';
+import 'package:find_my_device/view/contacts.dart';
 import 'package:flutter/material.dart';
 import '../globals.dart' as globals;
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+class Messages extends StatefulWidget {
+  const Messages({super.key});
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<Messages> createState() => _MessagesState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _MessagesState extends State<Messages> {
   int currentPageIndex = 0;
   void _onItemTapped(int index) {
     setState(() {
@@ -46,7 +46,7 @@ class _SearchScreenState extends State<SearchScreen> {
               widthFactor: 0.8,
               child: ElevatedButton.icon(
                   icon: const Icon(
-                    Icons.bluetooth_searching,
+                    Icons.add,
                     size: 35,
                   ),
                   style: ButtonStyle(
@@ -63,7 +63,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     // TODO
                   },
                   label: Text(
-                    'Begin Searching',
+                    'New Message',
                     style: globals.defaultFontTitleBold,
                   )),
             ),
@@ -117,7 +117,7 @@ class _SearchScreenState extends State<SearchScreen> {
       _isSearching
           ? displaySearchOptions.elementAt(1)
           : displaySearchOptions.elementAt(0),
-      const Devices(),
+      const Contacts(),
       const Profile(),
     ];
 
@@ -128,7 +128,7 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: globals.colorHighlight,
-        title: const Text("FindMyDevice"),
+        title: const Text("Chatterbox"),
         centerTitle: true,
         titleTextStyle: globals.defaultFontHeader,
         actions: [
@@ -154,7 +154,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.devices_other),
-            label: "Devices",
+            label: "Contacts",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline_rounded),

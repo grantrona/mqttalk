@@ -39,8 +39,8 @@ dependencies:
   google_fonts: ^3.0.1
   firebase_core: ^1.24.0
   firebase_auth: ^3.11.0
-  flutter_blue: ^0.8.0
-  flutter_reactive_ble: ^5.0.2
+  mqtt_client: ^9.7.2
+  provider: ^6.0.3
 
 dev_dependencies:
   flutter_test:

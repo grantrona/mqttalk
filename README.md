@@ -1,4 +1,6 @@
-# find_my_device
+# ChatterBox
+
+A MQTT based messaging app
 
 A new Flutter project.
 
