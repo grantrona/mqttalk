@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // Defuault values are used until sign in has occured -> Load preferences after sign in
 import '../globals.dart' as globals;
-import '../view_model/auth.dart';
+import '../controller/auth.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);

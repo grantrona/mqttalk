@@ -1,4 +1,4 @@
-import 'package:find_my_device/view_model/auth.dart';
+import 'package:find_my_device/controller/auth.dart';
 import 'package:flutter/material.dart';
 // Defuault values are used until sign in has occured -> Load preferences after sign in
 import '../globals.dart' as globals;

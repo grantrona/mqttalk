@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
-import '../view_model/auth.dart';
+import '../controller/auth.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
