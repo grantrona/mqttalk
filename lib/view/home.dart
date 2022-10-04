@@ -1,4 +1,5 @@
 import 'package:find_my_device/services/auth.dart';
+import 'package:find_my_device/shared/loadscreen.dart';
 import 'package:find_my_device/view/login.dart';
 import 'package:find_my_device/view/search.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,8 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
       stream: Auth().userStream,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-              child: Text("Loading", textDirection: TextDirection.ltr));
+          return const LoadScreen();
         } else if (snapshot.hasError) {
           return const Center(
               child: Text("Error Occured", textDirection: TextDirection.ltr));
