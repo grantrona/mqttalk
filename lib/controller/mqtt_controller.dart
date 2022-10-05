@@ -1,6 +1,7 @@
 import 'package:find_my_device/models/Mqtt_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mqtt_client/mqtt_client.dart';
+import 'package:mqtt_client/mqtt_server_client.dart';
 
 class MqttController {
   AppState _appState;
@@ -20,14 +21,14 @@ class MqttController {
         _appState = state;
 
   void initialiseClient() {
-    _client = MqttClient(_host, _id);
+    _client = MqttServerClient.withPort(_host, _id, 8883);
 
-    _client!.port = 8883;
+    // _client!.port = 8883;
     _client!.keepAlivePeriod = 60;
 
-    _client!.onDisconnected = onDisconnect;
-    _client!.onConnected = onConnect;
-    _client!.onSubscribed = onSubscribe;
+    _client!.onDisconnected = onDisconnected;
+    _client!.onConnected = onConnected;
+    _client!.onSubscribed = onSubscribed;
 
     final MqttConnectMessage connectionMessage = MqttConnectMessage()
         .withClientIdentifier(_id)
@@ -65,16 +66,16 @@ class MqttController {
     _client!.publishMessage(_topic, MqttQos.exactlyOnce, builder.payload!);
   }
 
-  void onDisconnect() {
+  void onDisconnected() {
     print(_client!.connectionStatus!.returnCode.toString());
     _appState.setAppConnectionState(AppConnectionState.disconnected);
   }
 
-  void onSubscribe(String topic) {
+  void onSubscribed(String topic) {
     print(_client!.clientIdentifier + " has subscribed to " + topic);
   }
 
-  void onConnect() {
+  void onConnected() {
     print(_client!.connectionStatus!.returnCode.toString());
     _appState.setAppConnectionState(AppConnectionState.connected);
     _client!.subscribe(_topic, MqttQos.atLeastOnce);

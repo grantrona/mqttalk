@@ -1,9 +1,11 @@
 import 'package:find_my_device/View/profile.dart';
+import 'package:find_my_device/controller/auth.dart';
 import 'package:find_my_device/controller/mqtt_controller.dart';
 import 'package:find_my_device/models/Mqtt_state.dart';
 import 'package:find_my_device/view/contacts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 import '../globals.dart' as globals;
 
 // class Messages extends StatefulWidget {
@@ -181,11 +183,16 @@ class Messages extends StatefulWidget {
 }
 
 class _MessagesState extends State<Messages> {
-  final _hostController = TextEditingController();
+  final uuidGen = const Uuid();
+
+  final _hostController =
+      TextEditingController(text: "test.mosquitto.org");
   final _messageController = TextEditingController();
-  final _topicController = TextEditingController();
+  final _topicController = TextEditingController(text: "test123");
   late AppState currentAppState;
   late MqttController controller;
+
+  bool _visible = true;
 
   int currentPageIndex = 0;
   void _onItemTapped(int index) {
@@ -201,7 +208,7 @@ class _MessagesState extends State<Messages> {
 
   @override
   Widget build(BuildContext context) {
-     final AppState appState = Provider.of<AppState>(context);
+    final AppState appState = Provider.of<AppState>(context);
     // Keep a reference to the app state.
     currentAppState = appState;
 
@@ -211,35 +218,99 @@ class _MessagesState extends State<Messages> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          TextFormField(
-            textInputAction: TextInputAction.next,
-            controller: _hostController,
-            decoration: InputDecoration(
-                border: const UnderlineInputBorder(),
-                labelText: 'Broker Address',
-                labelStyle: globals.defaultFontText,
-                prefixIcon: const Icon(Icons.person),
-                fillColor: globals.colorLight),
+          _buildConnectionState(),
+          Container(
+            margin: const EdgeInsets.all(2.0),
+            child: TextFormField(
+              textInputAction: TextInputAction.next,
+              controller: _hostController,
+              decoration: InputDecoration(
+                  border: const UnderlineInputBorder(),
+                  labelText: 'Broker Address',
+                  labelStyle: globals.defaultFontText,
+                  prefixIcon: const Icon(Icons.person),
+                  fillColor: globals.colorLight,
+                  filled: true),
+            ),
           ),
-          TextFormField(
-            textInputAction: TextInputAction.next,
-            controller: _topicController,
-            decoration: InputDecoration(
+          Container(
+            margin: const EdgeInsets.all(2.0),
+            child: TextFormField(
+              textInputAction: TextInputAction.next,
+              controller: _topicController,
+              decoration: InputDecoration(
                 border: const UnderlineInputBorder(),
                 labelText: 'Topic',
                 labelStyle: globals.defaultFontText,
                 prefixIcon: const Icon(Icons.person),
-                fillColor: globals.colorLight),
+                fillColor: globals.colorLight,
+                filled: true,
+              ),
+            ),
           ),
-          TextFormField(
-            textInputAction: TextInputAction.next,
-            controller: _messageController,
-            decoration: InputDecoration(
-                border: const UnderlineInputBorder(),
-                labelText: 'Message',
-                labelStyle: globals.defaultFontText,
-                prefixIcon: const Icon(Icons.person),
-                fillColor: globals.colorLight),
+          Container(
+            margin: const EdgeInsets.all(2.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    controller: _messageController,
+                    decoration: InputDecoration(
+                        border: const UnderlineInputBorder(),
+                        labelText: 'Message',
+                        labelStyle: globals.defaultFontText,
+                        prefixIcon: const Icon(Icons.person),
+                        fillColor: globals.colorLight,
+                        filled: true),
+                  ),
+                ),
+                _buildSendButton(),
+              ],
+            ),
+          ),
+          Row(
+            children: [
+              // Connect Button
+              Expanded(
+                  child: ElevatedButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
+                  backgroundColor:
+                      currentAppState.getState().name == "connected"
+                          ? MaterialStateProperty.all(Colors.grey)
+                          : MaterialStateProperty.all(globals.colorHighlight),
+                ),
+                child: const Text("Connect"),
+                onPressed: () {
+                  currentAppState.getState().name == "connected"
+                      ? null
+                      : _doConnect();
+                },
+              )),
+              // Disconnect Button
+              Expanded(
+                  child: ElevatedButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
+                  backgroundColor:
+                      currentAppState.getState().name == "connected"
+                          ? MaterialStateProperty.all(globals.colorHighlight)
+                          : MaterialStateProperty.all(Colors.grey),
+                ),
+                child: const Text("Disconnect"),
+                onPressed: () {
+                  currentAppState.getState().name == "connected"
+                      ? _doDisconnect()
+                      : null;
+                },
+              )),
+            ],
+          ),
+          SingleChildScrollView(
+            child: Text(currentAppState.getHistoryText()),
           ),
         ],
       ),
@@ -292,5 +363,98 @@ class _MessagesState extends State<Messages> {
         onTap: _onItemTapped,
       ),
     );
+  }
+
+  // Display the current state of connection for the app
+  Widget _buildConnectionState() {
+    if (currentAppState.getState() == AppConnectionState.disconnected) {
+      return Container(
+        margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+        width: MediaQuery.of(context).size.width,
+        color: Colors.redAccent,
+        child: Text(
+          "Currently Disconnected",
+          textAlign: TextAlign.center,
+          style: globals.defaultFontHeader,
+        ),
+      );
+    }
+
+    if (currentAppState.getState() == AppConnectionState.connecting) {
+      return Container(
+        margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+        width: MediaQuery.of(context).size.width,
+        color: Colors.yellowAccent,
+        child: Text(
+          "Connecting...",
+          textAlign: TextAlign.center,
+          style: globals.defaultFontHeader,
+        ),
+      );
+    }
+
+    // Hide the Connected widget after 3 seconds
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _visible = false;
+      });
+    });
+
+    if (_visible) {
+      return Container(
+        margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+        width: MediaQuery.of(context).size.width,
+        color: Colors.greenAccent,
+        child: Text(
+          "Connected!",
+          textAlign: TextAlign.center,
+          style: globals.defaultFontHeader,
+        ),
+      );
+    }
+    return Container();
+  }
+
+  Widget _buildSendButton() {
+    return ElevatedButton(
+      style: ButtonStyle(
+        padding: MaterialStateProperty.all<EdgeInsets>(
+            const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
+        backgroundColor: currentAppState.getState().name == "connected"
+            ? MaterialStateProperty.all(globals.colorHighlight)
+            : MaterialStateProperty.all(Colors.grey),
+      ),
+      onPressed: () {
+        currentAppState.getState().name == "connected"
+            ? _doPublishMessage()
+            : null;
+      },
+      child: const Icon(
+        Icons.send,
+        size: 40,
+      ),
+    );
+  }
+
+  void _doConnect() {
+    final uuid = uuidGen.v4();
+    controller = MqttController(
+      state: currentAppState,
+      id: uuid, 
+      host: _hostController.text,
+      topic: _topicController.text,
+      );
+    controller.initialiseClient();
+    controller.connect();
+  }
+
+  void _doDisconnect() {
+    controller.disconnect();
+  }
+
+  void _doPublishMessage() {
+    final userName = Auth().user!.email;
+    controller.publish("${userName!}: ${_messageController.text}");
+    _messageController.clear();
   }
 }
