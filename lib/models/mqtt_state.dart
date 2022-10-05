@@ -1,3 +1,4 @@
+import 'package:find_my_device/models/message.dart';
 import 'package:flutter/cupertino.dart';
 
 enum AppConnectionState { connected, disconnected, connecting }
@@ -6,12 +7,12 @@ class AppState with ChangeNotifier {
   AppConnectionState _connectionState = AppConnectionState.disconnected;
   String _recText = "";
   // String _history = "";
-  List<String> _history = [];
+  List<Message> _history = [];
 
-  void setRecText(String text) {
+  void setRecText(String text, bool incoming) {
     _recText = text;
     // _history += "\n""$_recText";
-    _history.add(_recText);
+    _history.add(Message(message: _recText, incoming: incoming));
     notifyListeners();
   }
 
@@ -24,7 +25,7 @@ class AppState with ChangeNotifier {
     return _recText;
   }
 
-  List<String> getHistoryText() {
+  List<Message> getHistoryText() {
     return _history;
   }
 

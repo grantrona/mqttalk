@@ -1,3 +1,4 @@
+import 'package:find_my_device/controller/auth.dart';
 import 'package:find_my_device/models/Mqtt_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mqtt_client/mqtt_client.dart';
@@ -84,7 +85,12 @@ class MqttController {
     _client!.updates!.listen((messages) { 
       final MqttPublishMessage recieved = messages[0].payload as MqttPublishMessage;
       final String finalMessage = MqttPublishPayload.bytesToStringAsString(recieved.payload.message);
-      _appState.setRecText(finalMessage);
+      final sender = finalMessage.split(":").elementAt(0);
+      if (sender == Auth().user!.email) {
+        _appState.setRecText(finalMessage, false);
+      } else {
+        _appState.setRecText(finalMessage, true);
+      }
     });
   }
 }

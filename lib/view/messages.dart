@@ -53,7 +53,6 @@ class _MessagesState extends State<Messages> {
         // mainAxisAlignment: MainAxisAlignment.start,
         // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          
           Expanded(
             flex: 1,
             child: Stack(
@@ -117,22 +116,41 @@ class _MessagesState extends State<Messages> {
             child: CustomScrollView(
               slivers: [
                 SliverFillRemaining(
-                  hasScrollBody: true,
-                     child:  ListView.builder(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: currentAppState.getHistoryText().length,
-                          itemBuilder: ((context, index) {
-                            return ListTile(
-                                title: Row(
-                              children: <Widget>[
-                                Text(currentAppState
-                                    .getHistoryText()
-                                    .elementAt(index))
-                              ],
-                            ));
-                          }))
-                )
+                    hasScrollBody: true,
+                    child: ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: currentAppState.getHistoryText().length,
+                        itemBuilder: ((context, index) {
+                          return ListTile(
+                              title: Row(
+                            children: <Widget>[
+                              currentAppState
+                                      .getHistoryText()
+                                      .elementAt(index)
+                                      .sentExternally()
+                                  ? Text(
+                                      currentAppState
+                                          .getHistoryText()
+                                          .elementAt(index)
+                                          .getMessage(),
+                                      style: const TextStyle(color: Colors.red),
+                                      textAlign: TextAlign.right,
+                                    )
+                                  : Text(
+                                      currentAppState
+                                          .getHistoryText()
+                                          .elementAt(index)
+                                          .getMessage(),
+                                      style: const TextStyle(color: Colors.white),
+                                      textAlign: TextAlign.right,
+                                    )
+                              // Text(currentAppState
+                              //     .getHistoryText()
+                              //     .elementAt(index))
+                            ],
+                          ));
+                        })))
               ],
             ),
           ),
