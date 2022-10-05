@@ -2,9 +2,9 @@ import 'package:find_my_device/View/profile.dart';
 import 'package:find_my_device/controller/auth.dart';
 import 'package:find_my_device/controller/mqtt_controller.dart';
 import 'package:find_my_device/models/Mqtt_state.dart';
+import 'package:find_my_device/models/topics.dart';
 import 'package:find_my_device/view/contacts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../globals.dart' as globals;
@@ -19,11 +19,13 @@ class Messages extends StatefulWidget {
 
 class _MessagesState extends State<Messages> {
   final uuidGen = const Uuid();
-
   final _messageController = TextEditingController();
   final _topicController = TextEditingController(text: "flutter/app/test");
   late AppState currentAppState;
   late MqttController controller;
+
+  final _topics = Topics().getTopics();
+  String? _selectedTopic;
 
   bool _visible = true;
 
@@ -48,42 +50,89 @@ class _MessagesState extends State<Messages> {
     // List of widgets displayable via the bottom navigation bar
     final List<Widget> bottomNavOptions = <Widget>[
       Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _buildConnectionState(),
-          Container(
-            margin: const EdgeInsets.all(2.0),
-            child: TextFormField(
-              textInputAction: TextInputAction.next,
-              controller: _topicController,
-              decoration: InputDecoration(
-                border: const UnderlineInputBorder(),
-                labelText: 'Topic',
-                labelStyle: globals.defaultFontText,
-                prefixIcon: const Icon(Icons.person),
-                fillColor: globals.colorLight,
-                filled: true,
-              ),
+          
+          Expanded(
+            flex: 1,
+            child: Stack(
+              children: [
+                _buildConnectionState(),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
+                  child: DropdownButtonFormField(
+                      isExpanded: true,
+                      decoration: InputDecoration(
+                          fillColor: globals.colorLight,
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                  width: 3, color: globals.colorHighlight))),
+                      hint: const Text("Select a Topic"),
+                      items: _topics
+                          .map((item) => DropdownMenuItem(
+                                value: item,
+                                child: Text(item),
+                              ))
+                          .toList(),
+                      value: _selectedTopic,
+                      onChanged: ((newValue) {
+                        setState(() {
+                          _selectedTopic = newValue;
+                        });
+                        if (currentAppState.getState().name == "connected") {
+                          _doDisconnect();
+                        }
+                        _doConnect();
+                      })),
+                ),
+              ],
             ),
           ),
-          SingleChildScrollView(
-            // TODO print all messages!
-            // child: Text(currentAppState.getHistoryText())
-            child: Column(
+          Expanded(
+            flex: 1,
+            child: Row(
               children: [
-                ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: appState.getHistoryText().length,
-                    itemBuilder: ((context, index) {
-                      return ListTile(
-                          title: Row(
-                        children: <Widget>[
-                          Text(appState.getHistoryText().elementAt(index))
-                        ],
-                      ));
-                    }))
+                Expanded(
+                  child: TextFormField(
+                    textInputAction: TextInputAction.next,
+                    controller: _messageController,
+                    decoration: InputDecoration(
+                        border: const UnderlineInputBorder(),
+                        labelText: 'Message...',
+                        labelStyle: globals.defaultFontText,
+                        prefixIcon: const Icon(Icons.chat_bubble_outline),
+                        fillColor: globals.colorLight,
+                        filled: true),
+                  ),
+                ),
+                _buildSendButton(),
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 5,
+            child: CustomScrollView(
+              slivers: [
+                SliverFillRemaining(
+                  hasScrollBody: true,
+                     child:  ListView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: currentAppState.getHistoryText().length,
+                          itemBuilder: ((context, index) {
+                            return ListTile(
+                                title: Row(
+                              children: <Widget>[
+                                Text(currentAppState
+                                    .getHistoryText()
+                                    .elementAt(index))
+                              ],
+                            ));
+                          }))
+                )
               ],
             ),
           ),
@@ -156,29 +205,6 @@ class _MessagesState extends State<Messages> {
     ];
 
     return Scaffold(
-      persistentFooterButtons: [
-        Container(
-          margin: const EdgeInsets.all(2.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  textInputAction: TextInputAction.next,
-                  controller: _messageController,
-                  decoration: InputDecoration(
-                      border: const UnderlineInputBorder(),
-                      labelText: 'Message',
-                      labelStyle: globals.defaultFontText,
-                      prefixIcon: const Icon(Icons.person),
-                      fillColor: globals.colorLight,
-                      filled: true),
-                ),
-              ),
-              _buildSendButton(),
-            ],
-          ),
-        ),
-      ],
       resizeToAvoidBottomInset:
           false, //prevents resizing of widgets from keyboard popup
       backgroundColor: globals.colorDark,
@@ -301,13 +327,15 @@ class _MessagesState extends State<Messages> {
     controller = MqttController(
       state: currentAppState,
       id: uuid,
-      topic: _topicController.text,
+      // topic: _topicController.text,
+      topic: "flutter/app/$_selectedTopic",
     );
     controller.initialiseClient();
     controller.connect();
   }
 
   void _doDisconnect() {
+    _visible = true;
     controller.disconnect();
   }
 

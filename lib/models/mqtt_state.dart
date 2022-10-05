@@ -13,7 +13,6 @@ class AppState with ChangeNotifier {
     // _history += "\n""$_recText";
     _history.add(_recText);
     notifyListeners();
-    
   }
 
   void setAppConnectionState(AppConnectionState state) {
