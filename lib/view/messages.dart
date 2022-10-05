@@ -4,175 +4,10 @@ import 'package:find_my_device/controller/mqtt_controller.dart';
 import 'package:find_my_device/models/Mqtt_state.dart';
 import 'package:find_my_device/view/contacts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../globals.dart' as globals;
-
-// class Messages extends StatefulWidget {
-//   const Messages({super.key});
-
-//   @override
-//   State<Messages> createState() => _MessagesState();
-// }
-
-// class _MessagesState extends State<Messages> {
-//   int currentPageIndex = 0;
-//   void _onItemTapped(int index) {
-//     setState(() {
-//       currentPageIndex = index;
-//     });
-//   }
-
-//   bool _isSearching = false;
-//   void _onSearchingButtonPressed() {
-//     setState(() {
-//       _isSearching = !_isSearching;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final List<Widget> displaySearchOptions = <Widget>[
-//       Column(
-//         mainAxisAlignment: MainAxisAlignment.start,
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         children: [
-//           Container(
-//             margin: const EdgeInsets.only(top: 30),
-//             child: Image.asset(
-//               'assets/images/radar.png',
-//               height: 325,
-//               width: 325,
-//             ),
-//           ),
-//           Container(
-//             margin: const EdgeInsets.only(top: 40),
-//             child: FractionallySizedBox(
-//               widthFactor: 0.8,
-//               child: ElevatedButton.icon(
-//                   icon: const Icon(
-//                     Icons.add,
-//                     size: 35,
-//                   ),
-//                   style: ButtonStyle(
-//                       padding: MaterialStateProperty.all<EdgeInsets>(
-//                           const EdgeInsets.all(20)),
-//                       backgroundColor:
-//                           MaterialStateProperty.all(globals.colorHighlight),
-//                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-//                           RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(10.0),
-//                       ))),
-//                   onPressed: () {
-//                     _onSearchingButtonPressed();
-//                     // TODO
-//                   },
-//                   label: Text(
-//                     'New Message',
-//                     style: globals.defaultFontTitleBold,
-//                   )),
-//             ),
-//           )
-//         ],
-//       ),
-//       Column(
-//         mainAxisAlignment: MainAxisAlignment.start,
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         children: [
-//           Container(
-//               margin: const EdgeInsets.only(top: 30),
-//               child: const Icon(
-//                 Icons.radar,
-//                 size: 325,
-//               )),
-//           Container(
-//             margin: const EdgeInsets.only(top: 40),
-//             child: FractionallySizedBox(
-//               widthFactor: 0.8,
-//               child: ElevatedButton.icon(
-//                   icon: const Icon(
-//                     Icons.cancel_outlined,
-//                     size: 35,
-//                   ),
-//                   style: ButtonStyle(
-//                       padding: MaterialStateProperty.all<EdgeInsets>(
-//                           const EdgeInsets.all(20)),
-//                       backgroundColor:
-//                           MaterialStateProperty.all(Colors.amber.shade800),
-//                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-//                           RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(10.0),
-//                       ))),
-//                   onPressed: () {
-//                     _onSearchingButtonPressed();
-//                     // TODO
-//                   },
-//                   label: Text(
-//                     'Stop Searching',
-//                     style: globals.defaultFontTitleBold,
-//                   )),
-//             ),
-//           )
-//         ],
-//       ),
-//     ];
-
-//     // List of widgets displayable via the bottom navigation bar
-//     final List<Widget> bottomNavOptions = <Widget>[
-//       _isSearching
-//           ? displaySearchOptions.elementAt(1)
-//           : displaySearchOptions.elementAt(0),
-//       const Contacts(),
-//       const Profile(),
-//     ];
-
-//     return Scaffold(
-//       resizeToAvoidBottomInset:
-//           false, //prevents resizing of widgets from keyboard popup
-//       backgroundColor: globals.colorDark,
-//       appBar: AppBar(
-//         automaticallyImplyLeading: false,
-//         backgroundColor: globals.colorHighlight,
-//         title: const Text("Chatterbox"),
-//         centerTitle: true,
-//         titleTextStyle: globals.defaultFontHeader,
-//         actions: [
-//           IconButton(
-//             onPressed: () {
-//               Navigator.pushNamed(context, '/preferences');
-//             },
-//             icon: const Icon(Icons.settings),
-//           ),
-//         ],
-//       ),
-
-//       body: Center(
-//         child: bottomNavOptions.elementAt(currentPageIndex),
-//       ),
-
-//       bottomNavigationBar: BottomNavigationBar(
-//         backgroundColor: globals.colorLight,
-//         items: const [
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.message_rounded),
-//             label: "Message",
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.contacts),
-//             label: "Contacts",
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.person_outline_rounded),
-//             label: "Account",
-//           ),
-//         ],
-//         currentIndex: currentPageIndex,
-//         selectedItemColor: globals.colorHighlight,
-//         onTap: _onItemTapped,
-//       ),
-//     );
-//   }
-// }
 
 // <------------------------------------------------------------------------------------>
 class Messages extends StatefulWidget {
@@ -185,10 +20,8 @@ class Messages extends StatefulWidget {
 class _MessagesState extends State<Messages> {
   final uuidGen = const Uuid();
 
-  final _hostController =
-      TextEditingController(text: "test.mosquitto.org");
   final _messageController = TextEditingController();
-  final _topicController = TextEditingController(text: "test123");
+  final _topicController = TextEditingController(text: "flutter/app/test");
   late AppState currentAppState;
   late MqttController controller;
 
@@ -223,20 +56,6 @@ class _MessagesState extends State<Messages> {
             margin: const EdgeInsets.all(2.0),
             child: TextFormField(
               textInputAction: TextInputAction.next,
-              controller: _hostController,
-              decoration: InputDecoration(
-                  border: const UnderlineInputBorder(),
-                  labelText: 'Broker Address',
-                  labelStyle: globals.defaultFontText,
-                  prefixIcon: const Icon(Icons.person),
-                  fillColor: globals.colorLight,
-                  filled: true),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(2.0),
-            child: TextFormField(
-              textInputAction: TextInputAction.next,
               controller: _topicController,
               decoration: InputDecoration(
                 border: const UnderlineInputBorder(),
@@ -248,70 +67,88 @@ class _MessagesState extends State<Messages> {
               ),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.all(2.0),
-            child: Row(
+          SingleChildScrollView(
+            // TODO print all messages!
+            // child: Text(currentAppState.getHistoryText())
+            child: Column(
               children: [
-                Expanded(
-                  child: TextFormField(
-                    textInputAction: TextInputAction.next,
-                    controller: _messageController,
-                    decoration: InputDecoration(
-                        border: const UnderlineInputBorder(),
-                        labelText: 'Message',
-                        labelStyle: globals.defaultFontText,
-                        prefixIcon: const Icon(Icons.person),
-                        fillColor: globals.colorLight,
-                        filled: true),
-                  ),
-                ),
-                _buildSendButton(),
+                ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: appState.getHistoryText().length,
+                    itemBuilder: ((context, index) {
+                      return ListTile(
+                          title: Row(
+                        children: <Widget>[
+                          Text(appState.getHistoryText().elementAt(index))
+                        ],
+                      ));
+                    }))
               ],
             ),
           ),
-          Row(
-            children: [
-              // Connect Button
-              Expanded(
-                  child: ElevatedButton(
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
-                  backgroundColor:
-                      currentAppState.getState().name == "connected"
-                          ? MaterialStateProperty.all(Colors.grey)
-                          : MaterialStateProperty.all(globals.colorHighlight),
-                ),
-                child: const Text("Connect"),
-                onPressed: () {
-                  currentAppState.getState().name == "connected"
-                      ? null
-                      : _doConnect();
-                },
-              )),
-              // Disconnect Button
-              Expanded(
-                  child: ElevatedButton(
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
-                  backgroundColor:
-                      currentAppState.getState().name == "connected"
-                          ? MaterialStateProperty.all(globals.colorHighlight)
-                          : MaterialStateProperty.all(Colors.grey),
-                ),
-                child: const Text("Disconnect"),
-                onPressed: () {
-                  currentAppState.getState().name == "connected"
-                      ? _doDisconnect()
-                      : null;
-                },
-              )),
-            ],
-          ),
-          SingleChildScrollView(
-            child: Text(currentAppState.getHistoryText()),
-          ),
+          // Container(
+          //   margin: const EdgeInsets.all(2.0),
+          //   child: Row(
+          //     children: [
+          //       Expanded(
+          //         child: TextFormField(
+          //           textInputAction: TextInputAction.next,
+          //           controller: _messageController,
+          //           decoration: InputDecoration(
+          //               border: const UnderlineInputBorder(),
+          //               labelText: 'Message',
+          //               labelStyle: globals.defaultFontText,
+          //               prefixIcon: const Icon(Icons.person),
+          //               fillColor: globals.colorLight,
+          //               filled: true),
+          //         ),
+          //       ),
+          //       _buildSendButton(),
+          //     ],
+          //   ),
+          // ),
+
+          // Row(
+          //   children: [
+          //     // Connect Button
+          //     Expanded(
+          //         child: ElevatedButton(
+          //       style: ButtonStyle(
+          //         padding: MaterialStateProperty.all<EdgeInsets>(
+          //             const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
+          //         backgroundColor:
+          //             currentAppState.getState().name == "connected"
+          //                 ? MaterialStateProperty.all(Colors.grey)
+          //                 : MaterialStateProperty.all(globals.colorHighlight),
+          //       ),
+          //       child: const Text("Connect"),
+          //       onPressed: () {
+          //         currentAppState.getState().name == "connected"
+          //             ? null
+          //             : _doConnect();
+          //       },
+          //     )),
+          //     // Disconnect Button
+          //     Expanded(
+          //         child: ElevatedButton(
+          //       style: ButtonStyle(
+          //         padding: MaterialStateProperty.all<EdgeInsets>(
+          //             const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
+          //         backgroundColor:
+          //             currentAppState.getState().name == "connected"
+          //                 ? MaterialStateProperty.all(globals.colorHighlight)
+          //                 : MaterialStateProperty.all(Colors.grey),
+          //       ),
+          //       child: const Text("Disconnect"),
+          //       onPressed: () {
+          //         currentAppState.getState().name == "connected"
+          //             ? _doDisconnect()
+          //             : null;
+          //       },
+          //     )),
+          //   ],
+          // ),
         ],
       ),
       const Contacts(),
@@ -319,6 +156,29 @@ class _MessagesState extends State<Messages> {
     ];
 
     return Scaffold(
+      persistentFooterButtons: [
+        Container(
+          margin: const EdgeInsets.all(2.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  textInputAction: TextInputAction.next,
+                  controller: _messageController,
+                  decoration: InputDecoration(
+                      border: const UnderlineInputBorder(),
+                      labelText: 'Message',
+                      labelStyle: globals.defaultFontText,
+                      prefixIcon: const Icon(Icons.person),
+                      fillColor: globals.colorLight,
+                      filled: true),
+                ),
+              ),
+              _buildSendButton(),
+            ],
+          ),
+        ),
+      ],
       resizeToAvoidBottomInset:
           false, //prevents resizing of widgets from keyboard popup
       backgroundColor: globals.colorDark,
@@ -440,10 +300,9 @@ class _MessagesState extends State<Messages> {
     final uuid = uuidGen.v4();
     controller = MqttController(
       state: currentAppState,
-      id: uuid, 
-      host: _hostController.text,
+      id: uuid,
       topic: _topicController.text,
-      );
+    );
     controller.initialiseClient();
     controller.connect();
   }

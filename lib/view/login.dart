@@ -44,12 +44,12 @@ class _LoginState extends State<Login> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Icon(
-                          Icons.bluetooth_searching,
+                          Icons.chat_bubble_outlined,
                           size: 50,
                           color: Colors.blue,
                         ),
                         Text(
-                          "FindMyDevice",
+                          "ChatterBox",
                           style: globals.defaultFontTitle,
                           textAlign: TextAlign.center,
                         ),

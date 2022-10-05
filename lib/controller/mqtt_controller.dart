@@ -4,27 +4,26 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
 class MqttController {
-  AppState _appState;
+  final AppState _appState;
   MqttClient? _client;
-  String _id;
-  String _host;
-  String _topic;
+  final String _id;
+  final String _host;
+  final String _topic;
 
   MqttController({
     required AppState state,
     required String id,
-    required String host,
     required String topic,
   })  : _id = id,
-        _host = host,
+        _host =  "test.mosquitto.org",
         _topic = topic,
         _appState = state;
 
   void initialiseClient() {
-    _client = MqttServerClient.withPort(_host, _id, 8883);
+    _client = MqttServerClient(_host, _id);
 
     // _client!.port = 8883;
-    _client!.keepAlivePeriod = 60;
+    _client!.keepAlivePeriod = 20;
 
     _client!.onDisconnected = onDisconnected;
     _client!.onConnected = onConnected;
@@ -38,6 +37,9 @@ class MqttController {
         .withWillQos(MqttQos.atLeastOnce);
     _client!.connectionMessage = connectionMessage;
 
+      /// Set the correct MQTT protocol for mosquito
+    _client!.setProtocolV311();
+
     print("Client Connecting...");
   }
 
@@ -46,11 +48,11 @@ class MqttController {
   void connect() async {
     assert(_client != null);
     try {
-      print('EXAMPLE::Mosquitto start client connecting....');
+      print('Mosquitto start client connecting....');
       _appState.setAppConnectionState(AppConnectionState.connecting);
       await _client!.connect();
     } on Exception catch (e) {
-      print('EXAMPLE::client exception - $e');
+      print('Client exception - $e');
       disconnect();
     }
   }
