@@ -9,10 +9,10 @@ class AppState with ChangeNotifier {
   // String _history = "";
   List<Message> _history = [];
 
-  void setRecText(String text, bool incoming) {
+  void setRecText(String text, String sender) {
     _recText = text;
     // _history += "\n""$_recText";
-    _history.add(Message(message: _recText, incoming: incoming));
+    _history.add(Message(message: _recText, sender: sender));
     notifyListeners();
   }
 

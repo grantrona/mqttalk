@@ -57,7 +57,7 @@ class Auth {
   }
 
   // Get the history from firebase for a particular topic
-  void setHistory(AppState state, String topic) {
+  void getHistoryFromFirebase(AppState state, String topic) {
     List<Message> newHistory = [];
     state.setHistoryText(newHistory);
   }

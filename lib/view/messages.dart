@@ -66,7 +66,7 @@ class _MessagesState extends State<Messages> {
                               borderRadius: BorderRadius.circular(12),
                               borderSide: const BorderSide(
                                   width: 3, color: globals.colorHighlight))),
-                      hint: const Text("Select a Topic"),
+                      hint: Text("Select a Topic", style: globals.buttonFontText,),
                       items: _topics
                           .map((item) => DropdownMenuItem(
                                 value: item,
@@ -238,7 +238,7 @@ class _MessagesState extends State<Messages> {
     List<Widget> textsWidgets = [];
     currentAppState.getHistoryText().forEach((message) {
       //  Messages sent externally
-      if (message.sentExternally()) {
+      if (message.getSender() != Auth().user!.email) {
         textsWidgets.add(Align(
           alignment: Alignment.topLeft,
           child: ConstrainedBox(
@@ -251,36 +251,40 @@ class _MessagesState extends State<Messages> {
                 color: globals.colorLight,
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Text(
-                message.getMessage(),
-                style: globals.defaultFontText,
-                textWidthBasis: TextWidthBasis.parent,
+              child: Row(
+                children: [
+                  Text(
+                    "${message.getSender()}: ${message.getMessage()}",
+                    style: globals.defaultFontText,
+                    textWidthBasis: TextWidthBasis.parent,
+                  ),
+                ],
               ),
             ),
           ),
         ));
       } else {
         //  Messages from users own device
-        textsWidgets.add(
-          Align(
-            alignment: Alignment.topRight,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * (2/3)),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                margin: const EdgeInsets.fromLTRB(0, 0, 5, 10),
-                decoration: BoxDecoration(
-                  color: globals.colorHighlight,
-                  borderRadius: BorderRadius.circular(15), 
-                  ),
-                child: Text(
-                message.getMessage(),
+        textsWidgets.add(Align(
+          alignment: Alignment.topRight,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * (2 / 3)),
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.fromLTRB(0, 0, 5, 10),
+              decoration: BoxDecoration(
+                color: globals.colorHighlight,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Text(
+                "${message.getSender()}: ${message.getMessage()}",
                 style: globals.defaultFontText,
                 textWidthBasis: TextWidthBasis.parent,
-                ),
               ),
             ),
-          ));
+          ),
+        ));
       }
     });
     return textsWidgets;
@@ -294,7 +298,7 @@ class _MessagesState extends State<Messages> {
         width: MediaQuery.of(context).size.width,
         color: Colors.redAccent,
         child: Text(
-          "Currently Disconnected",
+          "Not Connected",
           textAlign: TextAlign.center,
           style: globals.defaultFontHeader,
         ),
@@ -327,7 +331,7 @@ class _MessagesState extends State<Messages> {
         width: MediaQuery.of(context).size.width,
         color: Colors.greenAccent,
         child: Text(
-          "Connected!",
+          "Connection Sucess!",
           textAlign: TextAlign.center,
           style: globals.defaultFontHeader,
         ),
@@ -357,24 +361,26 @@ class _MessagesState extends State<Messages> {
     );
   }
 
+  // Connect to the
   void _doConnect() {
     final uuid = uuidGen.v4();
     controller = MqttController(
       state: currentAppState,
       id: uuid,
-      // topic: _topicController.text,
-      topic: "flutter/app/$_selectedTopic",
+      topic: "flutterapp/chatterbox/topics/$_selectedTopic",
     );
-    Auth().setHistory(currentAppState, "flutter/app/$_selectedTopic");
+    Auth().getHistoryFromFirebase(currentAppState, "flutterapp/chatterbox/topics/$_selectedTopic");
     controller.initialiseClient();
     controller.connect();
   }
 
+  // Disconnect from the server
   void _doDisconnect() {
     _visible = true;
     controller.disconnect();
   }
 
+  // Publish a message to all subscribers to a particular topic
   void _doPublishMessage() {
     final userName = Auth().user!.email;
     controller.publish("${userName!}: ${_messageController.text}");

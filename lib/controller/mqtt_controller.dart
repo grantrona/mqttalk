@@ -85,12 +85,13 @@ class MqttController {
     _client!.updates!.listen((messages) { 
       final MqttPublishMessage recieved = messages[0].payload as MqttPublishMessage;
       final String finalMessage = MqttPublishPayload.bytesToStringAsString(recieved.payload.message);
-      final sender = finalMessage.split(":").elementAt(0);
-      if (sender == Auth().user!.email) {
-        _appState.setRecText(finalMessage, false);
-      } else {
-        _appState.setRecText(finalMessage, true);
-      }
+      final messageAndSender = finalMessage.split(":");
+      _appState.setRecText(messageAndSender.elementAt(1), messageAndSender.elementAt(0));
+      // if (sender == Auth().user!.email) {
+      //   _appState.setRecText(finalMessage, false);
+      // } else {
+      //   _appState.setRecText(finalMessage, true);
+      // }
     });
   }
 }

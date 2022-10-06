@@ -1,18 +1,18 @@
 class Message {
   final String _message;
-  final bool _incoming;
+  final String _sender;
 
   Message({
     required String message,
-    required bool incoming,
+    required String sender,
   })  : _message = message,
-        _incoming = incoming;
+        _sender = sender;
 
   String getMessage() {
     return _message;
   }
 
-  bool sentExternally() {
-    return _incoming;
+  String getSender() {
+    return _sender;
   }
 }
