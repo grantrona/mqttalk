@@ -2,6 +2,7 @@ import 'package:find_my_device/View/profile.dart';
 import 'package:find_my_device/controller/auth.dart';
 import 'package:find_my_device/controller/firestore.dart';
 import 'package:find_my_device/controller/mqtt_controller.dart';
+import 'package:find_my_device/main.dart';
 import 'package:find_my_device/models/Mqtt_state.dart';
 import 'package:find_my_device/models/topics.dart';
 import 'package:find_my_device/view/contacts.dart';
@@ -369,9 +370,8 @@ class _MessagesState extends State<Messages> {
       id: uuid,
       topic: "flutterapp/chatterbox/topics/$_selectedTopic",
     );
-    Firestore().getHistoryFromFirebase(
-        currentAppState, "flutterapp/chatterbox/topics/$_selectedTopic");
     controller.initialiseClient();
+    controller.retrieveTopicHistory(context);
     controller.connect();
   }
 

@@ -1,5 +1,6 @@
 import 'package:find_my_device/controller/auth.dart';
 import 'package:find_my_device/controller/firestore.dart';
+import 'package:find_my_device/main.dart';
 import 'package:find_my_device/models/Mqtt_state.dart';
 import 'package:find_my_device/models/message.dart';
 import 'package:flutter/cupertino.dart';
@@ -71,7 +72,7 @@ class MqttController {
     _client!.publishMessage(_topic, MqttQos.exactlyOnce, builder.payload!);
 
     List<String> splitMessage = message.split(":");
-    Message newMessage = Message(message: splitMessage.elementAt(1), sender: Auth().user!.uid);
+    Message newMessage = Message(message: splitMessage.elementAt(1), sender: splitMessage.elementAt(0));
     String currentTopic = _topic.split("/").elementAt(3).toLowerCase();
     
     Firestore().updateTopicHistory(currentTopic, newMessage);
@@ -96,5 +97,11 @@ class MqttController {
       final messageAndSender = finalMessage.split(":");
       _appState.setRecText(messageAndSender.elementAt(1), messageAndSender.elementAt(0));
     });
+  }
+
+  void retrieveTopicHistory(BuildContext context) async {
+    _appState.setHistoryText([]);
+     String currentTopic = _topic.split("/").elementAt(3).toLowerCase();
+    _appState.setHistoryText(await Firestore().getTopicHistory(currentTopic, context));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:find_my_device/controller/firestore.dart';
 import 'package:find_my_device/models/message.dart';
 import 'package:find_my_device/models/Mqtt_state.dart';
 import 'package:find_my_device/shared/alert.dart';
@@ -42,7 +43,6 @@ class Auth {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      // .then((result) => {Navigator.pop(context)});
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         showAlertDialog(context, "The password provided is too weak!")

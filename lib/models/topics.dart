@@ -1,6 +1,6 @@
 class Topics {
 
-  List<String> topics= ["General", "News", "Muisc", "Movies", "Books", "Travel"];
+  List<String> topics= ["General", "News", "Music", "Movies", "Books", "Travel"];
 
   void setTopics(List<String> topics) {
     this.topics = topics;

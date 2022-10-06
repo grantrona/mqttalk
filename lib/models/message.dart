@@ -21,4 +21,9 @@ class Message {
     'sender' : _sender,
     'text' : _message,
   };
+
+  static Message fromJson(Map<String, dynamic> inJson) => Message(
+    message: inJson['text'],
+    sender: inJson['sender'],
+    );
 }

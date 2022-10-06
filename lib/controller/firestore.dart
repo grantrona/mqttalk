@@ -1,26 +1,42 @@
-import 'package:find_my_device/models/Mqtt_state.dart';
+import 'dart:convert';
+import 'dart:math';
+import 'package:find_my_device/main.dart';
 import 'package:find_my_device/models/message.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import "package:rxdart/rxdart.dart";
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Firestore {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  // Get the history from firebase for a particular topic
-  void getHistoryFromFirebase(AppState state, String topic) {
-    List<Message> newHistory = [];
-    state.setHistoryText(newHistory);
+
+  Future<List<Message>> getTopicHistory(String topic, BuildContext context) async {  
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(child: CircularProgressIndicator()));
+
+    final ref = _db.collection('topics').doc(topic);
+    final snapshot = await ref.get();
+    if (!snapshot.exists) {
+      return [];
+    }
+    final data = snapshot.get('messages');
+    // TODO error on empty chats -> need to return empty array?
+    print(data);
+
+    List<Message> topicHistory = [];
+    data.forEach((e) {
+      Message next = Message.fromJson(e);
+      topicHistory.add(next);
+    });
+
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
+
+    return topicHistory;
   }
 
-  // Future<List<Message>> getTopicHistory(String topic) async {
-  //   var ref = _db.collection('topics').doc(topic);
-  //   var snapshot = await ref.get();
-  //   var data = snapshot.data();
-    
-
-  //   return data;
-  // }
-
+  // Update the topic history as new texts are sent
   Future<void> updateTopicHistory(String topic, Message message) {
     final ref = _db.collection('topics').doc(topic);
     return ref.update({'messages' : FieldValue.arrayUnion([message.toJson()])});
