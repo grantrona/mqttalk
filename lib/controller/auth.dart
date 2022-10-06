@@ -55,10 +55,4 @@ class Auth {
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
-
-  // Get the history from firebase for a particular topic
-  void getHistoryFromFirebase(AppState state, String topic) {
-    List<Message> newHistory = [];
-    state.setHistoryText(newHistory);
-  }
 }

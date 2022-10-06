@@ -1,5 +1,7 @@
 import 'package:find_my_device/controller/auth.dart';
+import 'package:find_my_device/controller/firestore.dart';
 import 'package:find_my_device/models/Mqtt_state.dart';
+import 'package:find_my_device/models/message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
@@ -67,6 +69,12 @@ class MqttController {
     final MqttClientPayloadBuilder builder = MqttClientPayloadBuilder();
     builder.addString(message);
     _client!.publishMessage(_topic, MqttQos.exactlyOnce, builder.payload!);
+
+    List<String> splitMessage = message.split(":");
+    Message newMessage = Message(message: splitMessage.elementAt(1), sender: Auth().user!.uid);
+    String currentTopic = _topic.split("/").elementAt(3).toLowerCase();
+    
+    Firestore().updateTopicHistory(currentTopic, newMessage);
   }
 
   void onDisconnected() {
@@ -87,11 +95,6 @@ class MqttController {
       final String finalMessage = MqttPublishPayload.bytesToStringAsString(recieved.payload.message);
       final messageAndSender = finalMessage.split(":");
       _appState.setRecText(messageAndSender.elementAt(1), messageAndSender.elementAt(0));
-      // if (sender == Auth().user!.email) {
-      //   _appState.setRecText(finalMessage, false);
-      // } else {
-      //   _appState.setRecText(finalMessage, true);
-      // }
     });
   }
 }

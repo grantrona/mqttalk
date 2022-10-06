@@ -1,5 +1,6 @@
 import 'package:find_my_device/View/profile.dart';
 import 'package:find_my_device/controller/auth.dart';
+import 'package:find_my_device/controller/firestore.dart';
 import 'package:find_my_device/controller/mqtt_controller.dart';
 import 'package:find_my_device/models/Mqtt_state.dart';
 import 'package:find_my_device/models/topics.dart';
@@ -51,7 +52,7 @@ class _MessagesState extends State<Messages> {
       Column(
         children: [
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Stack(
               children: [
                 _buildConnectionState(),
@@ -66,7 +67,10 @@ class _MessagesState extends State<Messages> {
                               borderRadius: BorderRadius.circular(12),
                               borderSide: const BorderSide(
                                   width: 3, color: globals.colorHighlight))),
-                      hint: Text("Select a Topic", style: globals.buttonFontText,),
+                      hint: Text(
+                        "Select a Topic",
+                        style: globals.defaultFontText,
+                      ),
                       items: _topics
                           .map((item) => DropdownMenuItem(
                                 value: item,
@@ -109,7 +113,7 @@ class _MessagesState extends State<Messages> {
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 7,
             child: SingleChildScrollView(
               child: Column(
                 children: _buildTextWidgets(),
@@ -246,19 +250,15 @@ class _MessagesState extends State<Messages> {
                 maxWidth: MediaQuery.of(context).size.width * (2 / 3)),
             child: Container(
               padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.fromLTRB(5, 0, 0, 10),
+              margin: const EdgeInsets.fromLTRB(5, 10, 0, 0),
               decoration: BoxDecoration(
                 color: globals.colorLight,
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Row(
-                children: [
-                  Text(
-                    "${message.getSender()}: ${message.getMessage()}",
-                    style: globals.defaultFontText,
-                    textWidthBasis: TextWidthBasis.parent,
-                  ),
-                ],
+              child: Text(
+                "${message.getSender()}: ${message.getMessage()}",
+                style: globals.defaultFontText,
+                textWidthBasis: TextWidthBasis.parent,
               ),
             ),
           ),
@@ -272,7 +272,7 @@ class _MessagesState extends State<Messages> {
                 maxWidth: MediaQuery.of(context).size.width * (2 / 3)),
             child: Container(
               padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.fromLTRB(0, 0, 5, 10),
+              margin: const EdgeInsets.fromLTRB(0, 10, 5, 0),
               decoration: BoxDecoration(
                 color: globals.colorHighlight,
                 borderRadius: BorderRadius.circular(15),
@@ -369,7 +369,8 @@ class _MessagesState extends State<Messages> {
       id: uuid,
       topic: "flutterapp/chatterbox/topics/$_selectedTopic",
     );
-    Auth().getHistoryFromFirebase(currentAppState, "flutterapp/chatterbox/topics/$_selectedTopic");
+    Firestore().getHistoryFromFirebase(
+        currentAppState, "flutterapp/chatterbox/topics/$_selectedTopic");
     controller.initialiseClient();
     controller.connect();
   }
@@ -382,8 +383,12 @@ class _MessagesState extends State<Messages> {
 
   // Publish a message to all subscribers to a particular topic
   void _doPublishMessage() {
-    final userName = Auth().user!.email;
-    controller.publish("${userName!}: ${_messageController.text}");
+    if (_messageController.text == "") {
+      return;
+    }
+    final sender = Auth().user!.email;
+    final text = _messageController.text;
+    controller.publish("$sender: $text");
     _messageController.clear();
   }
 }

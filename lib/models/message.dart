@@ -8,6 +8,7 @@ class Message {
   })  : _message = message,
         _sender = sender;
 
+
   String getMessage() {
     return _message;
   }
@@ -15,4 +16,9 @@ class Message {
   String getSender() {
     return _sender;
   }
+
+  Map<String, dynamic> toJson() => {
+    'sender' : _sender,
+    'text' : _message,
+  };
 }
