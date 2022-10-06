@@ -20,7 +20,6 @@ class Messages extends StatefulWidget {
 class _MessagesState extends State<Messages> {
   final uuidGen = const Uuid();
   final _messageController = TextEditingController();
-  final _topicController = TextEditingController(text: "flutter/app/test");
   late AppState currentAppState;
   late MqttController controller;
 
@@ -50,8 +49,6 @@ class _MessagesState extends State<Messages> {
     // List of widgets displayable via the bottom navigation bar
     final List<Widget> bottomNavOptions = <Widget>[
       Column(
-        // mainAxisAlignment: MainAxisAlignment.start,
-        // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             flex: 1,
@@ -113,109 +110,76 @@ class _MessagesState extends State<Messages> {
           ),
           Expanded(
             flex: 5,
-            child: CustomScrollView(
-              slivers: [
-                SliverFillRemaining(
-                    hasScrollBody: true,
-                    child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: currentAppState.getHistoryText().length,
-                        itemBuilder: ((context, index) {
-                          return ListTile(
-                              title: Row(
-                            children: <Widget>[
-                              currentAppState
-                                      .getHistoryText()
-                                      .elementAt(index)
-                                      .sentExternally()
-                                  ? Text(
-                                      currentAppState
-                                          .getHistoryText()
-                                          .elementAt(index)
-                                          .getMessage(),
-                                      style: const TextStyle(color: Colors.red),
-                                      textAlign: TextAlign.right,
-                                    )
-                                  : Text(
-                                      currentAppState
-                                          .getHistoryText()
-                                          .elementAt(index)
-                                          .getMessage(),
-                                      style: const TextStyle(color: Colors.white),
-                                      textAlign: TextAlign.right,
-                                    )
-                              // Text(currentAppState
-                              //     .getHistoryText()
-                              //     .elementAt(index))
-                            ],
-                          ));
-                        })))
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: _buildTextWidgets(),
+              ),
             ),
           ),
-          // Container(
-          //   margin: const EdgeInsets.all(2.0),
-          //   child: Row(
-          //     children: [
-          //       Expanded(
-          //         child: TextFormField(
-          //           textInputAction: TextInputAction.next,
-          //           controller: _messageController,
-          //           decoration: InputDecoration(
-          //               border: const UnderlineInputBorder(),
-          //               labelText: 'Message',
-          //               labelStyle: globals.defaultFontText,
-          //               prefixIcon: const Icon(Icons.person),
-          //               fillColor: globals.colorLight,
-          //               filled: true),
-          //         ),
-          //       ),
-          //       _buildSendButton(),
-          //     ],
-          //   ),
-          // ),
 
-          // Row(
-          //   children: [
-          //     // Connect Button
-          //     Expanded(
-          //         child: ElevatedButton(
-          //       style: ButtonStyle(
-          //         padding: MaterialStateProperty.all<EdgeInsets>(
-          //             const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
-          //         backgroundColor:
-          //             currentAppState.getState().name == "connected"
-          //                 ? MaterialStateProperty.all(Colors.grey)
-          //                 : MaterialStateProperty.all(globals.colorHighlight),
+          // TODO return to this is above does not work!
+          // Expanded(
+          //     flex: 5,
+          //     child: Container(
+          //       alignment: Alignment.topLeft,
+          //       child: ConstrainedBox(
+          //         constraints: BoxConstraints(
+          //           maxWidth: MediaQuery.of(context).size.width * 2 / 3,
+          //         ),
+          //         child: ListView.builder(
+          //             physics: const AlwaysScrollableScrollPhysics(),
+          //             shrinkWrap: true,
+          //             itemCount: currentAppState.getHistoryText().length,
+          //             itemBuilder: ((context, index) {
+          //               return ListTile(
+          //                   tileColor: Colors.blueAccent,
+          //                   title: Row(
+          //                     children: <Widget>[
+          //                       currentAppState
+          //                               .getHistoryText()
+          //                               .elementAt(index)
+          //                               .sentExternally()
+          //                           ? Flexible(
+
+          //                               child: Align(
+          //                                 alignment: Alignment.centerRight,
+          //                                 child: Text(
+          //                                   currentAppState
+          //                                       .getHistoryText()
+          //                                       .elementAt(index)
+          //                                       .getMessage(),
+          //                                   style: const TextStyle(
+          //                                       color: Colors.red),
+          //                                   textAlign: TextAlign.right,
+          //                                   textWidthBasis:
+          //                                       TextWidthBasis.longestLine,
+          //                                 ),
+          //                               ),
+          //                             )
+          //                           : Flexible(
+          //                               child: Align(
+          //                                 alignment: Alignment.centerLeft,
+          //                                 child: Text(
+          //                                   currentAppState
+          //                                       .getHistoryText()
+          //                                       .elementAt(index)
+          //                                       .getMessage(),
+          //                                   style: const TextStyle(
+          //                                       color: Colors.white),
+          //                                   textAlign: TextAlign.right,
+          //                                   textWidthBasis:
+          //                                       TextWidthBasis.longestLine,
+          //                                 ),
+          //                               ),
+          //                             )
+          //                       // Text(currentAppState
+          //                       //     .getHistoryText()
+          //                       //     .elementAt(index))
+          //                     ],
+          //                   ));
+          //             })),
           //       ),
-          //       child: const Text("Connect"),
-          //       onPressed: () {
-          //         currentAppState.getState().name == "connected"
-          //             ? null
-          //             : _doConnect();
-          //       },
-          //     )),
-          //     // Disconnect Button
-          //     Expanded(
-          //         child: ElevatedButton(
-          //       style: ButtonStyle(
-          //         padding: MaterialStateProperty.all<EdgeInsets>(
-          //             const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
-          //         backgroundColor:
-          //             currentAppState.getState().name == "connected"
-          //                 ? MaterialStateProperty.all(globals.colorHighlight)
-          //                 : MaterialStateProperty.all(Colors.grey),
-          //       ),
-          //       child: const Text("Disconnect"),
-          //       onPressed: () {
-          //         currentAppState.getState().name == "connected"
-          //             ? _doDisconnect()
-          //             : null;
-          //       },
-          //     )),
-          //   ],
-          // ),
+          //     ))
         ],
       ),
       const Contacts(),
@@ -267,6 +231,59 @@ class _MessagesState extends State<Messages> {
         onTap: _onItemTapped,
       ),
     );
+  }
+
+  // Individual text widgets for each text stored in mqtt_state
+  _buildTextWidgets() {
+    List<Widget> textsWidgets = [];
+    currentAppState.getHistoryText().forEach((message) {
+      //  Messages sent externally
+      if (message.sentExternally()) {
+        textsWidgets.add(Align(
+          alignment: Alignment.topLeft,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * (2 / 3)),
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.fromLTRB(5, 0, 0, 10),
+              decoration: BoxDecoration(
+                color: globals.colorLight,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Text(
+                message.getMessage(),
+                style: globals.defaultFontText,
+                textWidthBasis: TextWidthBasis.parent,
+              ),
+            ),
+          ),
+        ));
+      } else {
+        //  Messages from users own device
+        textsWidgets.add(
+          Align(
+            alignment: Alignment.topRight,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * (2/3)),
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.fromLTRB(0, 0, 5, 10),
+                decoration: BoxDecoration(
+                  color: globals.colorHighlight,
+                  borderRadius: BorderRadius.circular(15), 
+                  ),
+                child: Text(
+                message.getMessage(),
+                style: globals.defaultFontText,
+                textWidthBasis: TextWidthBasis.parent,
+                ),
+              ),
+            ),
+          ));
+      }
+    });
+    return textsWidgets;
   }
 
   // Display the current state of connection for the app
@@ -348,6 +365,7 @@ class _MessagesState extends State<Messages> {
       // topic: _topicController.text,
       topic: "flutter/app/$_selectedTopic",
     );
+    Auth().setHistory(currentAppState, "flutter/app/$_selectedTopic");
     controller.initialiseClient();
     controller.connect();
   }

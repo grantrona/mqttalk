@@ -32,4 +32,8 @@ class AppState with ChangeNotifier {
   AppConnectionState getState() {
     return _connectionState;
   }
+
+  void setHistoryText(List<Message> history) {
+      _history = history;
+  }
 }

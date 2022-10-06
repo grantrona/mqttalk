@@ -1,3 +1,5 @@
+import 'package:find_my_device/models/message.dart';
+import 'package:find_my_device/models/Mqtt_state.dart';
 import 'package:find_my_device/shared/alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -52,5 +54,11 @@ class Auth {
       print(e);
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
+  }
+
+  // Get the history from firebase for a particular topic
+  void setHistory(AppState state, String topic) {
+    List<Message> newHistory = [];
+    state.setHistoryText(newHistory);
   }
 }
