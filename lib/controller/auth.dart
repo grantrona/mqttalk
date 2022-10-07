@@ -89,4 +89,20 @@ class Auth {
   Future<void> updateUserPassword(String password) {
     return user!.updatePassword(password);
   }
+
+  // Update a users email (only works after recent validation of user)
+  Future<String> updateUserEmail(String email) async {
+    try {
+      await user!.updateEmail(email);
+      return "";
+    } on FirebaseAuthException catch(e) {
+      if (e.code == 'invalid-email') {
+        return 'invalid-email';
+      }
+      if (e.code == 'email-already-in-use') {
+        return 'email-already-in-use';
+      }
+    }
+    return "Firebase error";
+  }
 }

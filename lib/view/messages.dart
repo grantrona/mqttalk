@@ -187,7 +187,6 @@ class _MessagesState extends State<Messages> {
           //     ))
         ],
       ),
-      const Contacts(),
       const Profile(),
     ];
 
@@ -221,10 +220,6 @@ class _MessagesState extends State<Messages> {
           BottomNavigationBarItem(
             icon: Icon(Icons.message_rounded),
             label: "Message",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.contacts),
-            label: "Contacts",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline_rounded),

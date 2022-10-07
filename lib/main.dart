@@ -1,3 +1,4 @@
+import 'package:find_my_device/controller/auth.dart';
 import 'package:find_my_device/models/Mqtt_state.dart';
 import 'package:find_my_device/routes.dart';
 import 'package:find_my_device/shared/load_screen.dart';

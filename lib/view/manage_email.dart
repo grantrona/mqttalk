@@ -1,32 +1,35 @@
 import 'package:find_my_device/controller/auth.dart';
+import 'package:find_my_device/view/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import '../globals.dart' as globals;
 
-class ManagePassword extends StatefulWidget {
-  const ManagePassword({super.key});
+class ManageEmail extends StatefulWidget {
+  const ManageEmail({super.key});
 
   @override
-  State<ManagePassword> createState() => _ManagePasswordState();
+  State<ManageEmail> createState() => _ManageEmailState();
 }
 
-class _ManagePasswordState extends State<ManagePassword> {
+class _ManageEmailState extends State<ManageEmail> {
   final _checkPasswordController = TextEditingController();
-  final _newPasswordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
+  final _newEmailController = TextEditingController();
+  final _confirmEmailController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
   bool _validPassword = true;
+  bool _validEmail = true;
+  String _authErrorCode = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: globals.colorHighlight,
-        title: const Text("Reset Password"),
+        title: const Text("Manage Email"),
         centerTitle: true,
         titleTextStyle: globals.defaultFontHeader,
       ),
@@ -44,8 +47,8 @@ class _ManagePasswordState extends State<ManagePassword> {
                         Container(
                           padding: const EdgeInsets.all(10),
                           child: TextFormField(
-                            obscureText: true,
                             textInputAction: TextInputAction.next,
+                            obscureText: true,
                             controller: _checkPasswordController,
                             decoration: InputDecoration(
                                 filled: true,
@@ -59,35 +62,37 @@ class _ManagePasswordState extends State<ManagePassword> {
                         Container(
                           padding: const EdgeInsets.all(10),
                           child: TextFormField(
-                            obscureText: true,
-                            controller: _newPasswordController,
+                            keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
-                            decoration: const InputDecoration(
+                            controller: _newEmailController,
+                            decoration: InputDecoration(
                                 filled: true,
                                 fillColor: globals.colorLight,
-                                hintText: "Enter new password"),
+                                hintText: "Enter new Email Address",
+                                errorText: _validEmail ? null : ""),
                           ),
                         ),
                         Container(
                           padding: const EdgeInsets.all(10),
                           child: TextFormField(
-                            obscureText: true,
+                            keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
-                            controller: _confirmPasswordController,
+                            controller: _confirmEmailController,
                             validator: (confirmValue) {
-                              if (_newPasswordController.text != confirmValue) {
-                                return "Passwords do not match, please try entering them again";
+                              if (_newEmailController.text != confirmValue) {
+                                return "Emails do not match, please try entering them again";
                               }
-                              if (_newPasswordController.text == "" ||
+                              if (_newEmailController.text == "" ||
                                   confirmValue == "") {
                                 return "Password fields are empty";
                               }
                               return null;
                             },
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               filled: true,
                               fillColor: globals.colorLight,
-                              hintText: "Confirm your new password",
+                              hintText: "Confirm your new Email Address",
+                              errorText: _validEmail ? null : _authErrorCode,
                             ),
                           ),
                         ),
@@ -106,16 +111,24 @@ class _ManagePasswordState extends State<ManagePassword> {
 
                                   if (_formKey.currentState!.validate() &&
                                       _validPassword) {
+                                    _authErrorCode = await Auth()
+                                        .updateUserEmail(
+                                            _newEmailController.text);
+
+                                    if (_authErrorCode != "") {
+                                      _validEmail = false;
+                                      setState(() {});
+                                      return;
+                                    }
+
                                     if (!mounted) {
                                       return;
                                     }
-                                    Auth().updateUserPassword(
-                                        _newPasswordController.text);
                                     Navigator.of(context).pop();
                                   }
                                 },
                                 child: Text(
-                                  "Submit Password",
+                                  "Submit Email",
                                   style: globals.buttonFontText,
                                 )),
                           ),

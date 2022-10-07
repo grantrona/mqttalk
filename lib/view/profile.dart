@@ -1,5 +1,6 @@
 import 'package:find_my_device/shared/ask_input_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../main.dart';
 import '../controller/auth.dart';
 import '../globals.dart' as globals;
@@ -12,7 +13,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  final user = Auth().user;
+  var user = Auth().user;
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +59,10 @@ class _ProfileState extends State<Profile> {
                                         style: globals.buttonFontText,
                                       ))),
                               style: globals.profileButton,
-                              onPressed: () async {
-                                // _confirmPassword(context);
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/manageEmail') .then((_) => setState(() {
+                                  user = Auth().user;
+                                },));
                               }),
                         ),
                       ),
