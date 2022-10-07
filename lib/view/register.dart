@@ -16,6 +16,9 @@ class _RegisterState extends State<Register> {
   final _passwordController = TextEditingController();
   final _confirmController = TextEditingController();
 
+  bool _passwordsMatch = true;
+  bool _validEmail = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +61,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 Expanded(
-                  flex: 4,
+                  flex: 5,
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.85,
                     decoration: BoxDecoration(
@@ -89,7 +92,10 @@ class _RegisterState extends State<Register> {
                                 labelText: 'Email',
                                 labelStyle: globals.defaultFontText,
                                 prefixIcon: const Icon(Icons.person),
-                                fillColor: globals.colorLight),
+                                fillColor: globals.colorLight,
+                                errorText: _validEmail
+                                    ? null
+                                    : "Email already in use or is invalid"),
                           ),
                         ),
                         Padding(
@@ -104,7 +110,8 @@ class _RegisterState extends State<Register> {
                                 labelText: 'Password',
                                 labelStyle: globals.defaultFontText,
                                 prefixIcon: const Icon(Icons.lock),
-                                fillColor: globals.colorLight),
+                                fillColor: globals.colorLight,
+                                errorText: _passwordsMatch ? null : ""),
                           ),
                         ),
                         Padding(
@@ -118,7 +125,10 @@ class _RegisterState extends State<Register> {
                                 labelText: 'Confirm Password',
                                 labelStyle: globals.defaultFontText,
                                 prefixIcon: const Icon(Icons.lock),
-                                fillColor: globals.colorLight),
+                                fillColor: globals.colorLight,
+                                errorText: _passwordsMatch
+                                    ? null
+                                    : "Passwords do not match"),
                           ),
                         ),
                         Container(
@@ -137,7 +147,7 @@ class _RegisterState extends State<Register> {
                                         RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                     ))),
-                                onPressed: () {
+                                onPressed: () async {
                                   if (_emailController.text.isEmpty ||
                                       _confirmController.text.isEmpty ||
                                       _passwordController.text.isEmpty) {
@@ -147,14 +157,16 @@ class _RegisterState extends State<Register> {
                                   }
                                   if (_confirmController.text !=
                                       _passwordController.text) {
-                                    showAlertDialog(
-                                        context, "Passwords do not match!");
-                                    _confirmController.clear();
-                                    _passwordController.clear();
+                                    _passwordsMatch = false;
+                                    setState(() {});
                                     return;
                                   }
-                                  Auth().register(_emailController.text.trim(),
+
+                                  _validEmail = await Auth().register(_emailController.text.trim(),
                                       _passwordController.text.trim(), context);
+                                  setState(() {
+                                    
+                                  });
                                 },
                                 child: Text(
                                   'Register',

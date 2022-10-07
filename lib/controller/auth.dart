@@ -13,14 +13,15 @@ class Auth {
   final user = FirebaseAuth.instance.currentUser;
 
   // Sign in an existing user using provided credentials
-  Future<void> signIn(
+  Future<bool> signIn(
       String email, String password, BuildContext context) async {
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) => const Center(child: CircularProgressIndicator()));
+        var result =  null;
     try {
-      await FirebaseAuth.instance
+      result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -30,6 +31,10 @@ class Auth {
       }
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    if (result == null) {
+      return false;
+    }
+    return result.user!= null;
   }
 
   // Sign a user out
@@ -38,14 +43,15 @@ class Auth {
   }
 
   // Register a new user using provided credentials
-  Future<void> register(
+  Future<bool> register(
       String email, String password, BuildContext context) async {
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) => const Center(child: CircularProgressIndicator()));
+      var result = null;
     try {
-      await FirebaseAuth.instance
+      result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -57,7 +63,12 @@ class Auth {
     } catch (e) {
       print(e);
     }
+    if (result == null) {
+      Navigator.of(context).pop();
+      return false;
+    }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    return result.user != null;
   }
 
   // Validate a password by using reauthentication

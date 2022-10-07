@@ -15,6 +15,8 @@ class _LoginState extends State<Login> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  bool _credentialsCorrect = true;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -89,7 +91,11 @@ class _LoginState extends State<Login> {
                                 labelText: 'Email',
                                 labelStyle: globals.defaultFontText,
                                 prefixIcon: const Icon(Icons.person),
-                                fillColor: globals.colorLight),
+                                fillColor: globals.colorLight,
+                                errorText: _credentialsCorrect
+                                  ? null
+                                  : "",
+                                ),
                           ),
                         ),
                         Padding(
@@ -99,21 +105,16 @@ class _LoginState extends State<Login> {
                             obscureText: true,
                             controller: _passwordController,
                             decoration: InputDecoration(
-                                border: const UnderlineInputBorder(),
-                                labelText: 'Password',
-                                labelStyle: globals.defaultFontText,
-                                prefixIcon: const Icon(Icons.lock),
-                                fillColor: globals.colorLight),
+                              border: const UnderlineInputBorder(),
+                              labelText: 'Password',
+                              labelStyle: globals.defaultFontText,
+                              prefixIcon: const Icon(Icons.lock),
+                              fillColor: globals.colorLight,
+                              errorText: _credentialsCorrect
+                                  ? null
+                                  : "Email or password incorrect",
+                            ),
                           ),
-                        ),
-                        TextButton(
-                          child: const Text(
-                            "Forgot password?",
-                            style: TextStyle(color: Colors.black54),
-                          ),
-                          onPressed: () {
-                            // TODO
-                          },
                         ),
                         Container(
                           margin: const EdgeInsets.only(top: 20),
@@ -131,9 +132,12 @@ class _LoginState extends State<Login> {
                                         RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                     ))),
-                                onPressed: () {
-                                  Auth().signIn(_emailController.text.trim(),
+                                onPressed: () async {
+                                  _credentialsCorrect = await Auth().signIn(_emailController.text.trim(),
                                       _passwordController.text.trim(), context);
+                                    setState(() {
+                                      
+                                    });
                                 },
                                 child: Text(
                                   'Sign in',
