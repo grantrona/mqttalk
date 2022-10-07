@@ -6,12 +6,10 @@ enum AppConnectionState { connected, disconnected, connecting }
 class AppState with ChangeNotifier {
   AppConnectionState _connectionState = AppConnectionState.disconnected;
   String _recText = "";
-  // String _history = "";
   List<Message> _history = [];
 
   void setRecText(String text, String sender) {
     _recText = text;
-    // _history += "\n""$_recText";
     _history.add(Message(message: _recText, sender: sender));
     notifyListeners();
   }

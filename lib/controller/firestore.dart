@@ -22,8 +22,11 @@ class Firestore {
       return [];
     }
     final data = snapshot.get('messages');
-    // TODO error on empty chats -> need to return empty array?
-    print(data);
+
+    if(data.toString() == "[]"){
+      navigatorKey.currentState!.popUntil((route) => route.isFirst);
+      return [];
+    }
 
     List<Message> topicHistory = [];
     data.forEach((e) {
