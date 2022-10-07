@@ -205,7 +205,7 @@ class _MessagesState extends State<Messages> {
             onPressed: () {
               Navigator.pushNamed(context, '/preferences');
             },
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.info, size: 35,),
           ),
         ],
       ),

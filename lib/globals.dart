@@ -54,6 +54,14 @@ TextStyle defaultUserHeader = GoogleFonts.lato(
   color: colorLight,
 );
 
+TextStyle linkText = GoogleFonts.lato(
+  fontSize: titleTextSize,
+  fontWeight: FontWeight.w600,
+  color: colorHighlight,
+  decoration: TextDecoration.underline,
+);
+
+
 ButtonStyle profileButton = ButtonStyle(
     padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
     backgroundColor: MaterialStateProperty.all(colorHighlight),
