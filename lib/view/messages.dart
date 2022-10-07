@@ -1,11 +1,8 @@
 import 'package:find_my_device/View/profile.dart';
 import 'package:find_my_device/controller/auth.dart';
-import 'package:find_my_device/controller/firestore.dart';
 import 'package:find_my_device/controller/mqtt_controller.dart';
-import 'package:find_my_device/main.dart';
 import 'package:find_my_device/models/Mqtt_state.dart';
 import 'package:find_my_device/models/topics.dart';
-import 'package:find_my_device/view/contacts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -121,70 +118,6 @@ class _MessagesState extends State<Messages> {
               ),
             ),
           ),
-
-          // TODO return to this is above does not work!
-          // Expanded(
-          //     flex: 5,
-          //     child: Container(
-          //       alignment: Alignment.topLeft,
-          //       child: ConstrainedBox(
-          //         constraints: BoxConstraints(
-          //           maxWidth: MediaQuery.of(context).size.width * 2 / 3,
-          //         ),
-          //         child: ListView.builder(
-          //             physics: const AlwaysScrollableScrollPhysics(),
-          //             shrinkWrap: true,
-          //             itemCount: currentAppState.getHistoryText().length,
-          //             itemBuilder: ((context, index) {
-          //               return ListTile(
-          //                   tileColor: Colors.blueAccent,
-          //                   title: Row(
-          //                     children: <Widget>[
-          //                       currentAppState
-          //                               .getHistoryText()
-          //                               .elementAt(index)
-          //                               .sentExternally()
-          //                           ? Flexible(
-
-          //                               child: Align(
-          //                                 alignment: Alignment.centerRight,
-          //                                 child: Text(
-          //                                   currentAppState
-          //                                       .getHistoryText()
-          //                                       .elementAt(index)
-          //                                       .getMessage(),
-          //                                   style: const TextStyle(
-          //                                       color: Colors.red),
-          //                                   textAlign: TextAlign.right,
-          //                                   textWidthBasis:
-          //                                       TextWidthBasis.longestLine,
-          //                                 ),
-          //                               ),
-          //                             )
-          //                           : Flexible(
-          //                               child: Align(
-          //                                 alignment: Alignment.centerLeft,
-          //                                 child: Text(
-          //                                   currentAppState
-          //                                       .getHistoryText()
-          //                                       .elementAt(index)
-          //                                       .getMessage(),
-          //                                   style: const TextStyle(
-          //                                       color: Colors.white),
-          //                                   textAlign: TextAlign.right,
-          //                                   textWidthBasis:
-          //                                       TextWidthBasis.longestLine,
-          //                                 ),
-          //                               ),
-          //                             )
-          //                       // Text(currentAppState
-          //                       //     .getHistoryText()
-          //                       //     .elementAt(index))
-          //                     ],
-          //                   ));
-          //             })),
-          //       ),
-          //     ))
         ],
       ),
       const Profile(),

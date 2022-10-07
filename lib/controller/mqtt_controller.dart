@@ -1,6 +1,4 @@
-import 'package:find_my_device/controller/auth.dart';
 import 'package:find_my_device/controller/firestore.dart';
-import 'package:find_my_device/main.dart';
 import 'package:find_my_device/models/Mqtt_state.dart';
 import 'package:find_my_device/models/message.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,8 +41,6 @@ class MqttController {
 
       /// Set the correct MQTT protocol for mosquito
     _client!.setProtocolV311();
-
-    print("Client Connecting...");
   }
 
   // Connect to the host
@@ -52,7 +48,6 @@ class MqttController {
   void connect() async {
     assert(_client != null);
     try {
-      print('Mosquitto start client connecting....');
       _appState.setAppConnectionState(AppConnectionState.connecting);
       await _client!.connect();
     } on Exception catch (e) {
@@ -62,7 +57,6 @@ class MqttController {
   }
 
   void disconnect() {
-    print('Disconnected');
     _client!.disconnect();
   }
 
@@ -79,16 +73,14 @@ class MqttController {
   }
 
   void onDisconnected() {
-    print(_client!.connectionStatus!.returnCode.toString());
     _appState.setAppConnectionState(AppConnectionState.disconnected);
   }
 
   void onSubscribed(String topic) {
-    print(_client!.clientIdentifier + " has subscribed to " + topic);
+    print("${_client!.clientIdentifier} has subscribed to $topic");
   }
 
   void onConnected() {
-    print(_client!.connectionStatus!.returnCode.toString());
     _appState.setAppConnectionState(AppConnectionState.connected);
     _client!.subscribe(_topic, MqttQos.atLeastOnce);
     _client!.updates!.listen((messages) { 

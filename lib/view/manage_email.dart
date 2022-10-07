@@ -1,9 +1,5 @@
 import 'package:find_my_device/controller/auth.dart';
-import 'package:find_my_device/view/profile.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import '../globals.dart' as globals;
 
 class ManageEmail extends StatefulWidget {

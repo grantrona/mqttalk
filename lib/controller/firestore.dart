@@ -1,10 +1,7 @@
-import 'dart:convert';
-import 'dart:math';
 import 'package:find_my_device/main.dart';
 import 'package:find_my_device/models/message.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Firestore {

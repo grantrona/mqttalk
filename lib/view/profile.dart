@@ -1,6 +1,5 @@
 import 'package:find_my_device/shared/ask_input_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../main.dart';
 import '../controller/auth.dart';
 import '../globals.dart' as globals;
