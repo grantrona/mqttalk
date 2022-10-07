@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
 import '../controller/auth.dart';
+import '../globals.dart' as globals;
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -10,13 +11,115 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final user = Auth().user;
+
   @override
   Widget build(BuildContext context) {
+    if (user != null) {
+      return Scaffold(
+        backgroundColor: globals.colorDark,
+        body: Center(
+          child: Column(
+            children: [
+              Expanded(
+                flex: 10,
+                child: Column(
+                  children: [
+                    const Icon(
+                      Icons.person_pin,
+                      size: 200,
+                      color: globals.colorLight,
+                    ),
+                    Text(
+                      user!.email ?? 'loading...',
+                      style: globals.defaultUserHeader,
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                  flex: 11,
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                        child: FractionallySizedBox(
+                          widthFactor: 0.7,
+                          child: ElevatedButton.icon(
+                              icon: const Icon(Icons.email),
+                              label: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Container(
+                                      margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                      child: Text(
+                                        'Change Email',
+                                        style: globals.buttonFontText,
+                                      ))),
+                              style: globals.profileButton,
+                              onPressed: () async {
+                                Auth().signOut();
+                                navigatorKey.currentState!
+                                    .popUntil((route) => route.isFirst);
+                              }),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                        child: FractionallySizedBox(
+                          widthFactor: 0.7,
+                          child: ElevatedButton.icon(
+                              icon: const Icon(Icons.lock_person),
+                              label: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Container(
+                                      margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                      child: Text(
+                                        'Reset Password',
+                                        style: globals.buttonFontText,
+                                      ))),
+                              style: globals.profileButton,
+                              onPressed: () async {
+                                Auth().signOut();
+                                navigatorKey.currentState!
+                                    .popUntil((route) => route.isFirst);
+                              }),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                        child: FractionallySizedBox(
+                          widthFactor: 0.7,
+                          child: ElevatedButton.icon(
+                              icon: const Icon(Icons.exit_to_app),
+                              label: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Container(
+                                      margin: const EdgeInsets.fromLTRB(
+                                          10, 0, 0, 0),
+                                      child: Text(
+                                        'Sign Out',
+                                        style: globals.buttonFontText,
+                                      ))),
+                              style: globals.profileButton,
+                              onPressed: () async {
+                                Auth().signOut();
+                                navigatorKey.currentState!
+                                    .popUntil((route) => route.isFirst);
+                              }),
+                        ),
+                      ),
+                    ],
+                  )),
+            ],
+          ),
+        ),
+      );
+    }
     return Scaffold(
       body: Center(
         child: Column(
           children: [
-            const Text("PROFILE"),
+            const Text("Error! No user signed in!"),
             ElevatedButton(
                 child: const Text('Sign Out'),
                 onPressed: () async {
