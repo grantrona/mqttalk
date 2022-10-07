@@ -11,6 +11,8 @@ class Profile extends StatefulWidget {
   State<Profile> createState() => _ProfileState();
 }
 
+/// Profile screen for the user, displays their email
+/// and allows them to change their password and/or email address
 class _ProfileState extends State<Profile> {
   var user = Auth().user;
 
@@ -46,6 +48,8 @@ class _ProfileState extends State<Profile> {
                         margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
                         child: FractionallySizedBox(
                           widthFactor: 0.7,
+
+                          // Button to allow user to update thier email. Takes user to the manage_email screen when pressed
                           child: ElevatedButton.icon(
                               icon: const Icon(Icons.email),
                               label: Align(
@@ -59,9 +63,12 @@ class _ProfileState extends State<Profile> {
                                       ))),
                               style: globals.profileButton,
                               onPressed: () {
-                                Navigator.pushNamed(context, '/manageEmail') .then((_) => setState(() {
-                                  user = Auth().user;
-                                },));
+                                Navigator.pushNamed(context, '/manageEmail')
+                                    .then((_) => setState(
+                                          () {
+                                            user = Auth().user;
+                                          },
+                                        ));
                               }),
                         ),
                       ),
@@ -69,6 +76,8 @@ class _ProfileState extends State<Profile> {
                         margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
                         child: FractionallySizedBox(
                           widthFactor: 0.7,
+
+                          // Button to allow user to update thier password. Takes user to the manage_password screen when pressed
                           child: ElevatedButton.icon(
                               icon: const Icon(Icons.lock_person),
                               label: Align(
@@ -91,6 +100,8 @@ class _ProfileState extends State<Profile> {
                         margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
                         child: FractionallySizedBox(
                           widthFactor: 0.7,
+
+                          // Button to allow user to sign out of their profile. A popup will appear to confirm their decision
                           child: ElevatedButton.icon(
                               icon: const Icon(Icons.exit_to_app),
                               label: Align(
@@ -104,7 +115,9 @@ class _ProfileState extends State<Profile> {
                                       ))),
                               style: globals.profileButtonSignOut,
                               onPressed: () async {
-                                bool? confirmed = await AskConfirmDialog.showInputDialog(context);
+                                bool? confirmed =
+                                    await AskConfirmDialog.showInputDialog(
+                                        context);
                                 if (confirmed != null && confirmed) {
                                   _doSignOut();
                                 }

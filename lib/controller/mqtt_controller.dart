@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
+/// Controls the connection to a MQTT broker and updates state of the app based on incoming
+/// messages from subscribed topics and retrieval of message histories from firestore
 class MqttController {
   final AppState _appState;
   MqttClient? _client;
@@ -21,10 +23,9 @@ class MqttController {
         _topic = topic,
         _appState = state;
 
+  // Initialise the MQTT client with the default port (1883)
   void initialiseClient() {
     _client = MqttServerClient(_host, _id);
-
-    // _client!.port = 8883;
     _client!.keepAlivePeriod = 20;
 
     _client!.onDisconnected = onDisconnected;
@@ -39,12 +40,11 @@ class MqttController {
         .withWillQos(MqttQos.atLeastOnce);
     _client!.connectionMessage = connectionMessage;
 
-      /// Set the correct MQTT protocol for mosquito
+      /// Set the correct MQTT protocol for mosquito.org
     _client!.setProtocolV311();
   }
 
-  // Connect to the host
-  // ignore: avoid_void_async
+  // Connect to the MQTT broker
   void connect() async {
     assert(_client != null);
     try {
@@ -56,22 +56,28 @@ class MqttController {
     }
   }
 
+  // Disconnect from a MQTT broker
   void disconnect() {
     _client!.disconnect();
   }
 
+  // Publish a message on a particualr topic to the MQTT broker. 
+  // Updates the message history in firestore with published message
   void publish(String message) {
     final MqttClientPayloadBuilder builder = MqttClientPayloadBuilder();
     builder.addString(message);
     _client!.publishMessage(_topic, MqttQos.exactlyOnce, builder.payload!);
 
     List<String> splitMessage = message.split(":");
+    // Create new message object
     Message newMessage = Message(message: splitMessage.elementAt(1), sender: splitMessage.elementAt(0));
     String currentTopic = _topic.split("/").elementAt(3).toLowerCase();
     
+    // Update firestore with new message
     Firestore().updateTopicHistory(currentTopic, newMessage);
   }
 
+  // Update app state when disconnected
   void onDisconnected() {
     _appState.setAppConnectionState(AppConnectionState.disconnected);
   }
@@ -80,6 +86,7 @@ class MqttController {
     print("${_client!.clientIdentifier} has subscribed to $topic");
   }
 
+  // When connected to a MQTT broker and subscribed to a topic, listen for new messages for that topic
   void onConnected() {
     _appState.setAppConnectionState(AppConnectionState.connected);
     _client!.subscribe(_topic, MqttQos.atLeastOnce);

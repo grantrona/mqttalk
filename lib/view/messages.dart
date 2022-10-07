@@ -16,17 +16,24 @@ class Messages extends StatefulWidget {
   State<Messages> createState() => _MessagesState();
 }
 
+/// Displays messages for a selected topic. Allows users to publish messages to a MQTT
+/// broker which will send messages to all others subscribes to the same topic
 class _MessagesState extends State<Messages> {
   final uuidGen = const Uuid();
   final _messageController = TextEditingController();
+  // The model for the application. Stores the topic message history
   late AppState currentAppState;
+  // Controls publishing messages, connecting to a broker, updating Firebase
+  // with new messages and updating Appstate with new log histories when subscribing to new topics
   late MqttController controller;
-
+  // Topics that the user can select
   final _topics = Topics().getTopics();
+  // The currently subscribed topic
   String? _selectedTopic;
-
+  // Determines if the top bar telling the user if they are connected or not is visible
   bool _visible = true;
 
+  // stores which page of the bottom nav bar (messages or profile) is currently in view
   int currentPageIndex = 0;
   void _onItemTapped(int index) {
     setState(() {
@@ -138,7 +145,10 @@ class _MessagesState extends State<Messages> {
             onPressed: () {
               Navigator.pushNamed(context, '/preferences');
             },
-            icon: const Icon(Icons.info, size: 35,),
+            icon: const Icon(
+              Icons.info,
+              size: 35,
+            ),
           ),
         ],
       ),
@@ -147,6 +157,7 @@ class _MessagesState extends State<Messages> {
         child: bottomNavOptions.elementAt(currentPageIndex),
       ),
 
+      // Used to switch between the message and account/profile screens
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: globals.colorLight,
         items: const [
@@ -290,9 +301,10 @@ class _MessagesState extends State<Messages> {
     );
   }
 
-  // Connect to the
+  // Connect to the MQTT broker with the selected topic to subscribe to
   void _doConnect() {
     final uuid = uuidGen.v4();
+    // Generate a new controller for the subscribed topic
     controller = MqttController(
       state: currentAppState,
       id: uuid,

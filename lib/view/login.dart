@@ -11,7 +11,9 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
+/// Asks user for their login credentials (email and password). User is logged in using firebase authentication
 class _LoginState extends State<Login> {
+  // Text controllers used to store/read text from text input fields
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -77,6 +79,8 @@ class _LoginState extends State<Login> {
                       color: globals.colorLight,
                       borderRadius: BorderRadius.circular(10),
                     ),
+
+                    // Text inputs for password and email
                     child: Column(
                       children: [
                         Padding(
@@ -133,6 +137,7 @@ class _LoginState extends State<Login> {
                                       borderRadius: BorderRadius.circular(10.0),
                                     ))),
                                 onPressed: () async {
+                                  // Check if user has provided correct credentials by passing the credentials to Auth()
                                   _credentialsCorrect = await Auth().signIn(_emailController.text.trim(),
                                       _passwordController.text.trim(), context);
                                     setState(() {
@@ -149,6 +154,8 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
+
+                // Register button for new users
                 Expanded(
                   flex: 1,
                   child: TextButton(

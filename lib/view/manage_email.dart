@@ -9,6 +9,7 @@ class ManageEmail extends StatefulWidget {
   State<ManageEmail> createState() => _ManageEmailState();
 }
 
+/// Allow user to update their email
 class _ManageEmailState extends State<ManageEmail> {
   final _checkPasswordController = TextEditingController();
   final _newEmailController = TextEditingController();
@@ -99,18 +100,20 @@ class _ManageEmailState extends State<ManageEmail> {
                             child: ElevatedButton(
                                 style: globals.profileButton,
                                 onPressed: () async {
+                                  // uses firebase auth to determine if password is correct for the current user
                                   _validPassword = await Auth()
                                       .validatePassword(
                                           _checkPasswordController.text);
 
                                   setState(() {});
 
+                                  // check if the user has inputted all the correct information into the email/password fields before proceeding
                                   if (_formKey.currentState!.validate() &&
                                       _validPassword) {
                                     _authErrorCode = await Auth()
                                         .updateUserEmail(
                                             _newEmailController.text);
-
+                                    // user has inputted an invalid password. 
                                     if (_authErrorCode != "") {
                                       _validEmail = false;
                                       setState(() {});

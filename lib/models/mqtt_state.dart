@@ -1,8 +1,12 @@
 import 'package:find_my_device/models/message.dart';
 import 'package:flutter/cupertino.dart';
 
+// The connection states (to a MQTT broker) the app can be in
 enum AppConnectionState { connected, disconnected, connecting }
 
+/// Model for information for the current state of the app. Stores connection
+/// status to an MQTT borker and message history for a subscribed topic which the view will display. 
+/// Updates view using Provider
 class AppState with ChangeNotifier {
   AppConnectionState _connectionState = AppConnectionState.disconnected;
   String _recText = "";
@@ -32,6 +36,6 @@ class AppState with ChangeNotifier {
   }
 
   void setHistoryText(List<Message> history) {
-      _history = history;
+    _history = history;
   }
 }

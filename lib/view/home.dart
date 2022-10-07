@@ -12,6 +12,8 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+// Initial screen for the user, determines if the user is logged in. Steam is used to navigate them to either screen.
+// If they are logged in, navigate them to the messages screen, otherwise navigate them to the login screen
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {

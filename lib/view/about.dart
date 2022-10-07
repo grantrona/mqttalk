@@ -10,11 +10,13 @@ class About extends StatefulWidget {
   State<About> createState() => _AboutState();
 }
 
+/// Builds the UI for the About screen which credits the open source projects used in the app, 
+/// creates text that are hyperlinks to websites for the open source projects
 class _AboutState extends State<About> {
   final Uri _mosqUrl = Uri.parse("https://mosquitto.org/");
   final Uri _client = Uri.parse("https://pub.dev/publishers/darticulate.com/packages");
   final Uri _provider = Uri.parse("https://pub.dev/publishers/dash-overflow.net/packages");
-   final Uri _jsonSerialise = Uri.parse("https://opensource.google/");
+  final Uri _jsonSerialise = Uri.parse("https://opensource.google/");
 
   @override
   Widget build(BuildContext context) {

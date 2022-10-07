@@ -28,6 +28,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    // Wait until initailisation and connection to firebase as completed before starting the app
     return FutureBuilder(
       future: _initializeApp,
       builder: (context, snapshot) {

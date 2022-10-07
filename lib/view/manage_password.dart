@@ -9,6 +9,7 @@ class ManagePassword extends StatefulWidget {
   State<ManagePassword> createState() => _ManagePasswordState();
 }
 
+/// Allow user to update their password
 class _ManagePasswordState extends State<ManagePassword> {
   final _checkPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
@@ -95,17 +96,20 @@ class _ManagePasswordState extends State<ManagePassword> {
                             child: ElevatedButton(
                                 style: globals.profileButton,
                                 onPressed: () async {
+                                  // uses firebase auth to determine if password is correct for the current user
                                   _validPassword = await Auth()
                                       .validatePassword(
                                           _checkPasswordController.text);
 
                                   setState(() {});
 
+                                  // check if the user has inputted all the correct information into the password fields before proceeding
                                   if (_formKey.currentState!.validate() &&
                                       _validPassword) {
                                     if (!mounted) {
                                       return;
                                     }
+                                    // use firebase auth to update the users password
                                     Auth().updateUserPassword(
                                         _newPasswordController.text);
                                     Navigator.of(context).pop();

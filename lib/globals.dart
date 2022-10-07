@@ -3,7 +3,7 @@ library my.globals;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Constatns for text and fonts
+/// Constants for text and fonts
 const double textSizeDefault = 16;
 const double headTextSizeDefault = 24;
 const double titleTextSizeDefault = 36;
@@ -20,6 +20,7 @@ double textSize = 16;
 double headTextSize = 24;
 double titleTextSize = 36;
 
+// Styles for various text components
 TextStyle defaultFontTitleBold = GoogleFonts.lato(
   fontSize: headTextSize,
   fontWeight: FontWeight.bold,
@@ -61,7 +62,7 @@ TextStyle linkText = GoogleFonts.lato(
   decoration: TextDecoration.underline,
 );
 
-
+// Styles for various buttons
 ButtonStyle profileButton = ButtonStyle(
     padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
     backgroundColor: MaterialStateProperty.all(colorHighlight),

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
+// Alert prompt to notify user of events
 showAlertDialog(BuildContext context, String alertText) {
-
-  // set up the buttons
+  // set up buttons
   Widget dismissButton = TextButton(
     child: const Text("OK"),
     onPressed:  () {
       Navigator.of(context).pop();
     },
   );
-
-  // set up the AlertDialog
+  // set up AlertDialog
   AlertDialog alert = AlertDialog(
     title: const Text("Alert"),
     content: Text(alertText),
@@ -18,8 +17,7 @@ showAlertDialog(BuildContext context, String alertText) {
       dismissButton,
     ],
   );
-
-  // show the dialog
+  // show dialog
   showDialog(
     context: context,
     builder: (BuildContext context) {

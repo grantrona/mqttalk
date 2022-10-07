@@ -8,6 +8,7 @@ class LoadScreen extends StatefulWidget {
   State<LoadScreen> createState() => _LoadScreenState();
 }
 
+// Splash screen while the app is initialising/connecting to firebase
 class _LoadScreenState extends State<LoadScreen> {
   @override
   Widget build(BuildContext context) {

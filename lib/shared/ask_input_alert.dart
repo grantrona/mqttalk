@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../globals.dart' as globals;
 
+// Ask the user to confirm if an action is what they want to do
 class AskConfirmDialog {
   static Future<bool?> showInputDialog(
       BuildContext context) async {

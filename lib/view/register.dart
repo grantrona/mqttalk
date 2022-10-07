@@ -11,11 +11,14 @@ class Register extends StatefulWidget {
   State<Register> createState() => _RegisterState();
 }
 
+/// Allow users to register their credentials using firebase auth
 class _RegisterState extends State<Register> {
+  // Text controllers used to store/read text from text input fields
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmController = TextEditingController();
 
+  // booleans used to check if inputs are valid
   bool _passwordsMatch = true;
   bool _validEmail = true;
 
@@ -78,6 +81,8 @@ class _RegisterState extends State<Register> {
                       color: globals.colorLight,
                       borderRadius: BorderRadius.circular(10),
                     ),
+
+                    // Text inputs for email and passoword
                     child: Column(
                       children: [
                         Padding(
@@ -148,6 +153,7 @@ class _RegisterState extends State<Register> {
                                       borderRadius: BorderRadius.circular(10.0),
                                     ))),
                                 onPressed: () async {
+                                  // Determine if user has filled in all the fields or not
                                   if (_emailController.text.isEmpty ||
                                       _confirmController.text.isEmpty ||
                                       _passwordController.text.isEmpty) {
@@ -155,6 +161,7 @@ class _RegisterState extends State<Register> {
                                         context, "Please fill all the fields!");
                                     return;
                                   }
+                                  // Check if passwords in both text fields match 
                                   if (_confirmController.text !=
                                       _passwordController.text) {
                                     _passwordsMatch = false;
@@ -162,6 +169,7 @@ class _RegisterState extends State<Register> {
                                     return;
                                   }
 
+                                  // attempt to use firebase auth to register a new user
                                   _validEmail = await Auth().register(_emailController.text.trim(),
                                       _passwordController.text.trim(), context);
                                   setState(() {

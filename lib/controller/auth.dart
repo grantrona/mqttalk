@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../main.dart';
 
+/// Controls authentication for users. 
 class Auth {
   final firebaseInstance = FirebaseAuth.instance;
   final userStream = FirebaseAuth.instance.authStateChanges();
