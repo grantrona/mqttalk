@@ -1,3 +1,4 @@
+import 'package:find_my_device/shared/ask_input_alert.dart';
 import 'package:flutter/material.dart';
 import '../main.dart';
 import '../controller/auth.dart';
@@ -58,9 +59,7 @@ class _ProfileState extends State<Profile> {
                                       ))),
                               style: globals.profileButton,
                               onPressed: () async {
-                                Auth().signOut();
-                                navigatorKey.currentState!
-                                    .popUntil((route) => route.isFirst);
+                                // _confirmPassword(context);
                               }),
                         ),
                       ),
@@ -81,9 +80,8 @@ class _ProfileState extends State<Profile> {
                                       ))),
                               style: globals.profileButton,
                               onPressed: () async {
-                                Auth().signOut();
-                                navigatorKey.currentState!
-                                    .popUntil((route) => route.isFirst);
+                                // _confirmPassword(context);
+                                Navigator.pushNamed(context, '/managePassword');
                               }),
                         ),
                       ),
@@ -104,9 +102,10 @@ class _ProfileState extends State<Profile> {
                                       ))),
                               style: globals.profileButtonSignOut,
                               onPressed: () async {
-                                Auth().signOut();
-                                navigatorKey.currentState!
-                                    .popUntil((route) => route.isFirst);
+                                bool? confirmed = await AskConfirmDialog.showInputDialog(context);
+                                if (confirmed != null && confirmed) {
+                                  _doSignOut();
+                                }
                               }),
                         ),
                       ),
@@ -132,5 +131,10 @@ class _ProfileState extends State<Profile> {
         ),
       ),
     );
+  }
+
+  void _doSignOut() {
+    Auth().signOut();
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

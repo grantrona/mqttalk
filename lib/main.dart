@@ -32,7 +32,7 @@ class _AppState extends State<App> {
       future: _initializeApp,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const Text("Error occured during initialisation!");
+          return const Text("Error occured during initialisation!", textDirection: TextDirection.ltr);
         }
         if (snapshot.connectionState == ConnectionState.done) {
           return MaterialApp(

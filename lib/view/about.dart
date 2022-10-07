@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../globals.dart' as globals;
 
-class Preferences extends StatefulWidget {
-  const Preferences({super.key});
+class About extends StatefulWidget {
+  const About({super.key});
 
   @override
-  State<Preferences> createState() => _PreferencesState();
+  State<About> createState() => _AboutState();
 }
 
-class _PreferencesState extends State<Preferences> {
+class _AboutState extends State<About> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +18,7 @@ class _PreferencesState extends State<Preferences> {
       backgroundColor: globals.colorDark,
       appBar: AppBar(
         backgroundColor: globals.colorHighlight,
-        title: const Text("Preferences"),
+        title: const Text("About"),
         centerTitle: true,
         titleTextStyle: globals.defaultFontHeader,
       ),
