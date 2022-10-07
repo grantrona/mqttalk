@@ -64,7 +64,7 @@ ButtonStyle profileButton = ButtonStyle(
 
 ButtonStyle profileButtonSignOut = ButtonStyle(
     padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
-    backgroundColor: MaterialStateProperty.all(colorHighlight),
+    backgroundColor: MaterialStateProperty.all(Colors.blueGrey),
     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.0),

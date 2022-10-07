@@ -50,7 +50,8 @@ class _ProfileState extends State<Profile> {
                               label: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Container(
-                                      margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                      margin: const EdgeInsets.fromLTRB(
+                                          10, 0, 0, 0),
                                       child: Text(
                                         'Change Email',
                                         style: globals.buttonFontText,
@@ -64,7 +65,7 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 30),
                         child: FractionallySizedBox(
                           widthFactor: 0.7,
                           child: ElevatedButton.icon(
@@ -72,7 +73,8 @@ class _ProfileState extends State<Profile> {
                               label: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Container(
-                                      margin: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                      margin: const EdgeInsets.fromLTRB(
+                                          10, 0, 0, 0),
                                       child: Text(
                                         'Reset Password',
                                         style: globals.buttonFontText,
@@ -100,7 +102,7 @@ class _ProfileState extends State<Profile> {
                                         'Sign Out',
                                         style: globals.buttonFontText,
                                       ))),
-                              style: globals.profileButton,
+                              style: globals.profileButtonSignOut,
                               onPressed: () async {
                                 Auth().signOut();
                                 navigatorKey.currentState!
