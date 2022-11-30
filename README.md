@@ -1,4 +1,4 @@
-# ChatterBox
+# MQTTalk
 
 A MQTT based messaging app
 
